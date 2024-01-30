@@ -1,0 +1,15 @@
+{
+	"name": "s46_comment_on_song",
+	"version": "1.0.0",
+	"description": "The platform allows users to post and comment on songs.",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "kalviumcommunity/S46_comment_on_song"
+	},
+	"author": "Alwin Sunil",
+	"license": "ISC"
+}
