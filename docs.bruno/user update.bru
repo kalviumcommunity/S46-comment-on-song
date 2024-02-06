@@ -1,0 +1,17 @@
+meta {
+  name: user update
+  type: http
+  seq: 4
+}
+
+patch {
+  url: http://localhost:3000/song/update/65bcc1c5f41bdebc943a50df
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "link": "example.com"
+  }
+}

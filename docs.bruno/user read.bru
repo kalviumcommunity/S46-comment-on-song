@@ -1,0 +1,17 @@
+meta {
+  name: user read
+  type: http
+  seq: 3
+}
+
+get {
+  url: http://localhost:3000/user/read/65bcbffe7ffa1414707f25d0
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "userName": "HarrySmith Updated"
+  }
+}
