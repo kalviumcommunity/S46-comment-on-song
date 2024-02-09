@@ -1,0 +1,103 @@
+.onboarding {
+	display: flex;
+	flex-direction: column;
+	padding: 3rem 2rem;
+	gap: 1.5rem;
+	width: 100%;
+	align-items: center;
+}
+
+.login {
+	width: 100%;
+	max-width: 24rem;
+}
+
+.login h1 {
+	margin-bottom: 1rem;
+}
+
+.on-form {
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+}
+
+.on-form-element {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+.login label {
+	font-size: 0.9rem;
+	font-weight: 500;
+	color: #222;
+}
+
+.login input {
+	padding: 0.75rem 1.5rem;
+	font-size: 0.9rem;
+	border-radius: 1rem;
+	border: 2px solid #222;
+}
+
+.login input:focus {
+	outline: 0px;
+}
+
+.login button {
+	padding: 0.75rem 2rem;
+	border-radius: 0 2rem 2rem 2rem;
+	background-color: aquamarine;
+	font-weight: 700;
+	font-size: 1rem;
+	border: 3px solid black;
+}
+
+hr {
+	border-color: #fafafa;
+	background-color: #fafafa;
+	opacity: 0.2;
+	border-width: 2px;
+	width: 100%;
+	max-width: 24rem;
+}
+
+.on-google {
+	padding: 0.75rem 2rem;
+	border-radius: 2rem;
+	background-color: #fafafa;
+	border: 3px solid black;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 1rem;
+	width: 100%;
+	max-width: 24rem;
+}
+
+.on-google img {
+	height: 1.5rem;
+}
+
+.on-google span {
+	font-weight: 600;
+	font-size: 1rem;
+}
+
+.on-instead {
+	text-align: center;
+	width: 100%;
+	max-width: 24rem;
+}
+
+.on-instead span {
+	font-weight: 500;
+	font-size: 1rem;
+	color: #555555;
+}
+
+.on-instead a {
+	font-weight: 700;
+	color: blue;
+}
