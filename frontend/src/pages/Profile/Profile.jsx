@@ -1,13 +1,13 @@
-import React from "react";
-import Onboarding from "@/components/Onboarding";
+import React from "react"
+import Onboarding from "@/components/Onboarding"
 import "./Profile.css"
 
 function Profile() {
-	return (
-		<div className="profile">
-			<Onboarding />
-		</div>
-	);
+    return (
+        <div className="profile">
+            <Onboarding />
+        </div>
+    )
 }
 
-export default Profile;
+export default Profile

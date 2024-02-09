@@ -1,108 +1,108 @@
 @import url("https://fonts.googleapis.com/css2?family=Honk&display=swap");
 
 .feed {
-	flex: 2;
-	background-color: white;
+    flex: 2;
+    background-color: white;
 }
 
 .feed {
-	border-radius: 0 1.5rem 1.5rem 0;
-	display: flex;
-	flex-direction: column;
-	position: relative;
-	background-color: #fff3d5;
-	overflow: hidden;
+    border-radius: 0 1.5rem 1.5rem 0;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    background-color: #fff3d5;
+    overflow: hidden;
 }
 
 .elements {
-	position: absolute;
-	bottom: 0;
-	padding: 3rem 2rem;
-	display: flex;
-	flex-direction: column;
-	gap: 1.5rem;
+    position: absolute;
+    bottom: 0;
+    padding: 3rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 }
 
 .feed button {
-	padding: 0.75rem 2rem 0.75rem 1.95rem;
-	border-radius: 0 2rem 2rem 2rem;
-	font-size: 1rem;
-	width: fit-content;
-	font-weight: 700;
-	background-color: #ffe900;
-	border: 3px solid black;
-	font-style: italic;
+    padding: 0.75rem 2rem 0.75rem 1.95rem;
+    border-radius: 0 2rem 2rem 2rem;
+    font-size: 1rem;
+    width: fit-content;
+    font-weight: 700;
+    background-color: #ffe900;
+    border: 3px solid black;
+    font-style: italic;
 }
 
 .feed button:hover {
-	cursor: pointer;
+    cursor: pointer;
 }
 
 .desc {
-	font-size: 4rem;
-	font-family: "Honk", system-ui;
-	line-height: 4rem;
+    font-size: 4rem;
+    font-family: "Honk", system-ui;
+    line-height: 4rem;
 }
 
 .navigation {
-	display: flex;
-	padding: 0.5rem;
-	background-color: #333;
-	gap: 1rem;
-	height: fit-content;
-	border-radius: 1rem;
+    display: flex;
+    padding: 0.5rem;
+    background-color: #333;
+    gap: 1rem;
+    height: fit-content;
+    border-radius: 1rem;
 }
 
 .navi {
-	flex: 1;
-	color: white;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 0.25rem;
-	padding: 0.5rem;
-	border-radius: 0.5rem;
+    flex: 1;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
 }
 
 .navi-activity {
-	padding: 0.4rem 2rem;
-	border-radius: 2rem;
-	display: flex;
+    padding: 0.4rem 2rem;
+    border-radius: 2rem;
+    display: flex;
 }
 
 .navi-active {
-	background-color: #6e6e6e;
+    background-color: #6e6e6e;
 }
 
 .navi:hover {
-	cursor: pointer;
+    cursor: pointer;
 }
 
 .navi img {
-	margin: auto;
-	width: 1.5rem;
-	height: auto;
+    margin: auto;
+    width: 1.5rem;
+    height: auto;
 }
 
 .navi span {
-	font-weight: 500;
+    font-weight: 500;
 }
 
 @media screen and (max-width: 896px) {
-	.feed {
-		border-radius: 1rem 1rem 0rem 0rem;
-	}
+    .feed {
+        border-radius: 1rem 1rem 0rem 0rem;
+    }
 
-	.grain {
-		height: 40rem;
-	}
+    .grain {
+        height: 40rem;
+    }
 
-	.navigation {
-		border-radius: 0rem 0rem 1rem 1rem;
-	}
+    .navigation {
+        border-radius: 0rem 0rem 1rem 1rem;
+    }
 
-	.desc {
-		font-size: 3.5rem;
-		line-height: 3.5rem;
-	}
+    .desc {
+        font-size: 3.5rem;
+        line-height: 3.5rem;
+    }
 }
