@@ -4,7 +4,9 @@
 
 The platform allows users to post and comment on their favourite songs anonymously.
 
-**Live link:** https://s46-comment-on-song.onrender.com
+**Web App Link (Frontend):** https://comment-on-song.onrender.com
+
+**API Link (Backend):** https://s46-comment-on-song.onrender.com
 
 **User Flow:**
 
