@@ -1,0 +1,19 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    background-color: #111;
+    padding: 1rem;
+    gap: 1rem;
+    min-height: 100vh;
+}
+
+button {
+    cursor: pointer;
+}
+
+@media screen and (max-width: 896px) {
+    .container {
+        flex-direction: column;
+        gap: 0rem;
+    }
+}
