@@ -10,24 +10,42 @@ function Signup() {
                 <form className="on-form">
                     <div className="on-form-element">
                         <label htmlFor="name">Name</label>
-                        <input type="text" placeholder="Alice Bob" />
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            placeholder="Enter your name"
+                            required
+                        />
                     </div>
                     <div className="on-form-element">
                         <label htmlFor="email">Email</label>
-                        <input type="text" placeholder="alice.bob@gmail.com" />
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="Enter your email"
+                        />
                     </div>
                     <div className="on-form-element">
                         <label htmlFor="password">Password</label>
                         <input
                             type="password"
-                            placeholder="At least 8 characters"
+                            id="password"
+                            name="password"
+                            minLength="8"
+                            placeholder="Enter your password"
+                            required
                         />
                     </div>
                     <div className="on-form-element">
                         <label htmlFor="password">Confirm Password</label>
                         <input
                             type="password"
-                            placeholder="Re-enter the password"
+                            id="confirmPassword"
+                            name="confirmPassword"
+                            placeholder="Re-enter your password"
+                            required
                         />
                     </div>
                     <div className="on-form-element">
@@ -60,13 +78,23 @@ function Login() {
                 <form className="on-form">
                     <div className="on-form-element">
                         <label htmlFor="email">Email</label>
-                        <input type="text" placeholder="alice.bob@gmail.com" />
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="Enter your email"
+                            required
+                        />
                     </div>
                     <div className="on-form-element">
                         <label htmlFor="password">Password</label>
                         <input
                             type="password"
-                            placeholder="At least 8 characters"
+                            id="password"
+                            name="password"
+                            minLength="8"
+                            placeholder="Enter your password"
+                            required
                         />
                     </div>
                     <div className="on-form-element">
