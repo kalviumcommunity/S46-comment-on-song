@@ -1,12 +1,25 @@
+require("dotenv").config();
+
 const express = require("express");
+const cors = require("cors");
 
 const { startDB, stopDB, isConnected } = require("./db");
 const crudRoutes = require("./routes/crud");
+const feed = require("./routes/feed");
+
 const UserSchema = require("./models/user");
 const SongSchema = require("./models/song");
+const ThreadSchema = require("./models/thread");
 
 const app = express();
 const port = 3000;
+
+app.use(
+	cors({
+		origin: process.env.FRONTEND_URL,
+		optionsSuccessStatus: 200,
+	})
+);
 
 app.use(express.json());
 
@@ -54,12 +67,17 @@ const setModel = (req, res, next) => {
 		req.Model = UserSchema;
 	} else if (req.baseUrl === "/song") {
 		req.Model = SongSchema;
+	} else if (req.baseUrl === "/thread") {
+		req.Model = ThreadSchema;
 	}
 	next();
 };
 
+app.use("/feed", feed);
+
 app.use("/user", setModel, crudRoutes);
 app.use("/song", setModel, crudRoutes);
+app.use("/thread", setModel, crudRoutes);
 
 app.listen(port, () => {
 	console.log(`Server listening at port ${port}`);
