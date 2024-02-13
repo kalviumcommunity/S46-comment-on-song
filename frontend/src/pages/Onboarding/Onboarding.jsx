@@ -5,7 +5,7 @@ import "./Onboarding.css"
 function Signup() {
     return (
         <>
-            <div className="login">
+            <div className="on-container">
                 <h1>Signup</h1>
                 <form className="on-form">
                     <div className="on-form-element">
@@ -25,6 +25,8 @@ function Signup() {
                             id="email"
                             name="email"
                             placeholder="Enter your email"
+                            autoComplete="username"
+                            required
                         />
                     </div>
                     <div className="on-form-element">
@@ -35,6 +37,7 @@ function Signup() {
                             name="password"
                             minLength="8"
                             placeholder="Enter your password"
+                            autoComplete="new-password"
                             required
                         />
                     </div>
@@ -45,6 +48,7 @@ function Signup() {
                             id="confirmPassword"
                             name="confirmPassword"
                             placeholder="Re-enter your password"
+                            autoComplete="new-password"
                             required
                         />
                     </div>
@@ -73,7 +77,7 @@ function Signup() {
 function Login() {
     return (
         <>
-            <div className="login">
+            <div className="on-container">
                 <h1>Login</h1>
                 <form className="on-form">
                     <div className="on-form-element">
@@ -83,6 +87,7 @@ function Login() {
                             id="email"
                             name="email"
                             placeholder="Enter your email"
+                            autoComplete="username"
                             required
                         />
                     </div>
@@ -94,6 +99,7 @@ function Login() {
                             name="password"
                             minLength="8"
                             placeholder="Enter your password"
+                            autoComplete="current-password"
                             required
                         />
                     </div>
@@ -133,7 +139,9 @@ function Onboarding() {
 
     return (
         <div className="onboarding">
-            {path == "login" ? <Login /> : <Signup />}
+            <div className="onboarding-container">
+                {path == "login" ? <Login /> : <Signup />}
+            </div>
         </div>
     )
 }

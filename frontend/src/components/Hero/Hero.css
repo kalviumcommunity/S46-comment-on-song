@@ -1,0 +1,44 @@
+@import url("https://fonts.googleapis.com/css2?family=Honk&display=swap");
+
+.hero-elements {
+    position: absolute;
+    bottom: 0;
+    padding: 3rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.desc {
+    font-size: 4rem;
+    font-family: "Honk", system-ui;
+    line-height: 4rem;
+}
+
+.hero-elements a {
+    padding: 0.75rem 2rem 0.75rem 1.95rem;
+    border-radius: 0 2rem 2rem 2rem;
+    font-size: 1rem;
+    width: fit-content;
+    font-weight: 700;
+    background-color: #ffe900;
+    border: 3px solid black;
+    font-style: italic;
+    color: black;
+    text-decoration: none;
+}
+
+.hero-elements a:hover {
+    cursor: pointer;
+}
+
+@media screen and (max-width: 896px) {
+    .grain {
+        height: 48rem;
+    }
+
+    .desc {
+        font-size: 3.5rem;
+        line-height: 3.5rem;
+    }
+}
