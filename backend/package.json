@@ -1,29 +1,31 @@
 {
-	"name": "comment-on-song-backend",
-	"version": "1.0.0",
-	"description": "Backend for comment on song",
-	"main": "server.js",
-	"scripts": {
-		"start": "node server.js",
-		"dev": "nodemon server.js"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/kalviumcommunity/s46-comment-on-song.git"
-	},
-	"author": "Alwin Sunil",
-	"license": "ISC",
-	"bugs": {
-		"url": "https://github.com/kalviumcommunity/s46-comment-on-song/issues"
-	},
-	"homepage": "https://github.com/kalviumcommunity/s46-comment-on-song#readme",
-	"dependencies": {
-		"cors": "^2.8.5",
-		"dotenv": "^16.4.1",
-		"express": "^4.18.2",
-		"mongoose": "^8.1.1"
-	},
-	"devDependencies": {
-		"nodemon": "^3.0.3"
-	}
+    "name": "comment-on-song-backend",
+    "version": "1.0.0",
+    "description": "Backend for comment on song",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js",
+        "dev": "nodemon server.js",
+        "format": "prettier --write \"**/*.{md,js,json}\""
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/kalviumcommunity/s46-comment-on-song.git"
+    },
+    "author": "Alwin Sunil",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/kalviumcommunity/s46-comment-on-song/issues"
+    },
+    "homepage": "https://github.com/kalviumcommunity/s46-comment-on-song#readme",
+    "dependencies": {
+        "cors": "^2.8.5",
+        "dotenv": "^16.4.1",
+        "express": "^4.18.2",
+        "mongoose": "^8.1.1"
+    },
+    "devDependencies": {
+        "nodemon": "^3.0.3",
+        "prettier": "^3.2.5"
+    }
 }
