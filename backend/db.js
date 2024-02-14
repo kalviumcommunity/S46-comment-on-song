@@ -3,7 +3,7 @@ const mongoose = require("mongoose")
 
 const startDB = async () => {
     try {
-        await mongoose.connect(process.env.MONGO_URL)
+        await mongoose.connect(process.env.MONGO_URI)
         console.log("📦 Connected to mongoDB")
         return "📦 Connected to mongoDB"
     } catch (err) {
