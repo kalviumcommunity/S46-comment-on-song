@@ -6,6 +6,12 @@
     height: 100vh;
 }
 
+.app {
+    flex: 4;
+    display: flex;
+    flex-direction: column;
+}
+
 button {
     cursor: pointer;
 }
@@ -14,5 +20,8 @@ button {
     .container {
         flex-direction: column;
         gap: 0rem;
+    }
+    .app {
+        height: calc(100vh - 5.5rem);
     }
 }
