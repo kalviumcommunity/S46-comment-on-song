@@ -8,10 +8,11 @@ import Onboarding from "@/pages/Onboarding"
 import Feed from "@/pages/Feed"
 import Profile from "@/pages/Profile"
 import Song from "@/pages/Song"
+import AddFavSong from "@/pages/AddFavSong"
 import "./App.css"
 
 function App() {
-    const [isLoggedIn, setIsLoggedIn] = useState(true)
+    const [isLoggedIn, setIsLoggedIn] = useState(false)
     const [currentSong, setCurrentSong] = useState([])
 
     return (
@@ -29,6 +30,10 @@ function App() {
                             <>
                                 <Route path="profile" element={<Profile />} />
                                 <Route
+                                    path="addfavsong"
+                                    element={<AddFavSong />}
+                                />
+                                <Route
                                     path="login"
                                     element={
                                         <Navigate to="/feed" replace={true} />
@@ -43,6 +48,10 @@ function App() {
                             </>
                         ) : (
                             <>
+                                <Route
+                                    path="addfavsong"
+                                    element={<AddFavSong />}
+                                />
                                 <Route path="signup" element={<Onboarding />} />
                                 <Route path="login" element={<Onboarding />} />
                                 <Route

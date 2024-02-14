@@ -17,6 +17,7 @@
 .feed-header {
     font-weight: 700;
     padding: 1rem;
+    padding-top: 0.5rem;
     line-height: 2.25rem;
 }
 
@@ -73,10 +74,6 @@
 }
 
 @media screen and (max-width: 896px) {
-    .feed {
-        height: calc(100% - 6.25rem);
-    }
-
     .song {
         padding: 0.75rem 1rem;
     }
