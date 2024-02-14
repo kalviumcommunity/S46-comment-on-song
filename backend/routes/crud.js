@@ -26,6 +26,7 @@ const createHandler = async (req, res) => {
 
 const readHandler = async (req, res) => {
 	const document = await req.Model.findById(req.params.id);
+
 	if (!document) {
 		return res.status(404).json({ error: "Document not found" });
 	}
@@ -57,8 +58,8 @@ const deleteHandler = async (req, res) => {
 	return res.status(204).send({ action: "successful" });
 };
 
+router.get("/:id", validateDocumentID, asyncHandler(readHandler));
 router.post("/create", createHandler);
-router.get("/read/:id", validateDocumentID, asyncHandler(readHandler));
 router.patch("/update/:id", validateDocumentID, asyncHandler(patchHandler));
 router.delete("/delete/:id", validateDocumentID, asyncHandler(deleteHandler));
 
