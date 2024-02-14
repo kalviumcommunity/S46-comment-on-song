@@ -1,18 +1,30 @@
 .onboarding {
+    flex: 2;
+    display: flex;
+    align-items: end;
+    background-color: white;
+    border-radius: 1rem 1rem 0rem 0rem;
+    height: calc(100% - 6rem);
+}
+
+.onboarding-container {
     display: flex;
     flex-direction: column;
     padding: 3rem 2rem;
     gap: 1.5rem;
     width: 100%;
+    height: 100%;
     align-items: center;
+    overflow-y: scroll;
 }
 
-.login {
+.on-container {
     width: 100%;
     max-width: 24rem;
+    margin-top: auto;
 }
 
-.login h1 {
+.on-container h1 {
     margin-bottom: 1rem;
 }
 
@@ -28,24 +40,24 @@
     gap: 0.4rem;
 }
 
-.login label {
+.on-container label {
     font-size: 0.9rem;
     font-weight: 500;
     color: #222;
 }
 
-.login input {
+.on-container input {
     padding: 0.75rem 1.5rem;
     font-size: 0.9rem;
     border-radius: 1rem;
     border: 2px solid #222;
 }
 
-.login input:focus {
+.on-container input:focus {
     outline: 0px;
 }
 
-.login button {
+.on-container button {
     padding: 0.75rem 2rem;
     border-radius: 0 2rem 2rem 2rem;
     background-color: aquamarine;
@@ -91,6 +103,10 @@ hr {
     max-width: 24rem;
 }
 
+.on-instead-long {
+    padding-bottom: 2rem;
+}
+
 .on-instead span {
     font-weight: 500;
     font-size: 1rem;
@@ -100,4 +116,14 @@ hr {
 .on-instead a {
     font-weight: 700;
     color: blue;
+}
+
+@media screen and (max-width: 896px) {
+    .onboarding {
+        border-radius: 0;
+    }
+
+    .on-instead-long {
+        padding-bottom: 0;
+    }
 }

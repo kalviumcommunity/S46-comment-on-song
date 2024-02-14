@@ -1,0 +1,117 @@
+:root {
+    --spotify-accent: #1ed760;
+    --youtube-accent: #ff0000;
+}
+
+.fav-container {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    background-color: #fff3d5;
+    gap: 0.75rem;
+}
+
+.fav-song {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+    background-color: #ffffff;
+    width: 100%;
+    height: fit-content;
+    padding: 1.5rem;
+    box-shadow: rgba(33, 35, 38, 0.1) 0px 5px 5px -5px;
+}
+
+.fav-art {
+    height: 8rem;
+    border-radius: 0.5rem;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+}
+
+.fav-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.fav-title {
+    font-size: 1.5rem;
+    line-height: 1.75rem;
+    font-weight: 700;
+}
+
+.fav-artist {
+    font-size: 1rem;
+    color: #6a6a6a;
+    font-weight: 500;
+}
+
+.fav-play {
+    padding: 0.5rem 1.5rem;
+    margin-top: 0.5rem;
+    font-weight: 500;
+    color: white;
+    text-decoration: none;
+    box-shadow:
+        rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+        rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+    width: fit-content;
+    border-radius: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.fav-play-youtube {
+    background-color: var(--youtube-accent);
+}
+
+.fav-play-spotify {
+    background-color: var(--spotify-accent);
+}
+
+.fav-play img {
+    width: 1.5rem;
+}
+
+.comments {
+    margin: 0 1rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    font-size: 0.9rem;
+}
+
+.comment {
+    padding: 0.25rem;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.comment-user {
+    font-weight: 500;
+}
+
+.comment-content {
+    color: #4f4f4f;
+}
+
+.comments-header {
+    font-weight: 500;
+    font-family: "Pacifico", cursive;
+    font-size: 1.25rem;
+    padding-bottom: 0.5rem;
+}
+
+@media screen and (max-width: 896px) {
+    .fav-art {
+        height: 8rem;
+        width: 8rem;
+        object-fit: cover;
+    }
+}

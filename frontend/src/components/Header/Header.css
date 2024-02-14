@@ -36,8 +36,8 @@
     .brand {
         flex-direction: row;
         flex: none;
-        margin-bottom: 1rem;
-        padding: 0.25rem 0 0.5rem 0.5rem;
+        padding: 1rem;
+        padding-bottom: 1.25rem;
     }
 
     .credits {

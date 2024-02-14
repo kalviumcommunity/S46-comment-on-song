@@ -1,11 +1,10 @@
 import React from "react"
-import Onboarding from "@/components/Onboarding"
 import "./Profile.css"
 
 function Profile() {
     return (
         <div className="profile">
-            <Onboarding />
+            <h1>Profile</h1>
         </div>
     )
 }
