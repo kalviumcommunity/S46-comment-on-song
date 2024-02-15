@@ -85,24 +85,31 @@ function Song() {
                             Admiration for this song
                         </span>
                         {threadData.favoriteComments &&
+                        threadData.favoriteComments.length != 0 ? (
                             threadData.favoriteComments.map(
                                 (comment, index) => (
                                     <div className="comment" key={index}>
                                         <span className="comment-user">
-                                            {comment.userID}
+                                            user-{comment.userID.slice(-4)}
                                         </span>
                                         <span className="comment-content">
                                             {comment.commentText}
                                         </span>
                                     </div>
                                 ),
-                            )}
+                            )
+                        ) : (
+                            <span className="comment-empty">
+                                No comments yet.
+                            </span>
+                        )}
                     </div>
                     <div className="comments">
                         <span className="comments-header">
                             General comments
                         </span>
                         {threadData.generalComments &&
+                        threadData.generalComments != 0 ? (
                             threadData.generalComments.map((comment, index) => (
                                 <div className="comment" key={index}>
                                     <span className="comment-user">
@@ -112,7 +119,12 @@ function Song() {
                                         {comment.commentText}
                                     </span>
                                 </div>
-                            ))}
+                            ))
+                        ) : (
+                            <span className="comment-empty">
+                                No comments yet.
+                            </span>
+                        )}
                     </div>
                 </>
             )}

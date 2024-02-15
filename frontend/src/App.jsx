@@ -12,15 +12,16 @@ import AddFavSong from "@/pages/AddFavSong"
 import "./App.css"
 
 function App() {
-    const [isLoggedIn, setIsLoggedIn] = useState(false)
+    const [isLoggedIn, setIsLoggedIn] = useState(true)
+    const [userFavSong, setUserFavSong] = useState(false)
     const [currentSong, setCurrentSong] = useState([])
 
     return (
         <div className="container">
-            <Header />
             <CurrentSongContext.Provider
                 value={{ currentSong, setCurrentSong }}
             >
+                <Header />
                 <Routes>
                     <Route path="/" element={<Layout />}>
                         <Route index element={<Hero />} />
@@ -48,14 +49,16 @@ function App() {
                             </>
                         ) : (
                             <>
-                                <Route
-                                    path="addfavsong"
-                                    element={<AddFavSong />}
-                                />
                                 <Route path="signup" element={<Onboarding />} />
                                 <Route path="login" element={<Onboarding />} />
                                 <Route
                                     path="profile"
+                                    element={
+                                        <Navigate to="/login" replace={true} />
+                                    }
+                                />
+                                <Route
+                                    path="addfavsong"
                                     element={
                                         <Navigate to="/login" replace={true} />
                                     }

@@ -6,15 +6,34 @@
     display: flex;
     flex-direction: column;
     padding: 3rem 2rem;
-    gap: 1.5rem;
     overflow-y: scroll;
+    align-items: center;
+}
+
+.addsong-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    width: 100%;
+    max-width: 24rem;
+    margin-top: auto;
+}
+
+.addsong-container h2 {
+    line-height: 1.75rem;
 }
 
 .add-form {
     display: flex;
     flex-direction: column;
-    max-width: 24rem;
     gap: 0.8rem;
+}
+
+.add-form-err {
+    font-size: 0.8rem;
+    line-height: 1rem;
+    font-weight: 500;
+    color: red;
 }
 
 .add-form-element {
@@ -50,9 +69,13 @@
     border: 3px solid black;
 }
 
+.add-form-status {
+    font-weight: 500;
+    font-size: 2rem;
+}
+
 @media screen and (max-width: 896px) {
     .addsong {
         padding: 2rem 1rem;
-        justify-content: end;
     }
 }

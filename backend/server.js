@@ -6,6 +6,7 @@ const cors = require("cors")
 const { startDB, stopDB, isConnected } = require("./db")
 const crudRoutes = require("./routes/crud")
 const feed = require("./routes/feed")
+const favsong = require("./routes/favsong")
 
 const UserSchema = require("./models/user")
 const SongSchema = require("./models/song")
@@ -78,6 +79,8 @@ app.use("/feed", feed)
 app.use("/user", setModel, crudRoutes)
 app.use("/song", setModel, crudRoutes)
 app.use("/thread", setModel, crudRoutes)
+
+app.use("/favsong", favsong)
 
 app.listen(port, () => {
     console.log(`Server listening at port ${port}`)

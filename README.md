@@ -2,7 +2,7 @@
 
 ### By Alwin Sunil, S46
 
-The platform allows users to post and comment on their favourite songs anonymously.
+The platform allows users to post and comment on their favorite songs anonymously.
 
 **Web App Link (Frontend):** https://comment-on-song.onrender.com
 

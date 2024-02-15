@@ -1,23 +1,9 @@
 const express = require("express")
-const mongoose = require("mongoose")
+
+const validateDocumentID = require("../middlewares/validateDocumentID")
+const asyncHandler = require("../middlewares/asyncHandler")
 
 const router = express.Router()
-
-// Middleware to validate document ID format
-const validateDocumentID = (req, res, next) => {
-    const documentID = req.params.id
-
-    if (!mongoose.Types.ObjectId.isValid(documentID)) {
-        return res.status(400).json({ error: "Invalid document ID format" })
-    }
-    next()
-}
-
-const asyncHandler = (handler) => (req, res, next) =>
-    handler(req, res, next).catch((err) => {
-        console.error(err.message)
-        res.status(500).json({ error: "Internal Server Error" })
-    })
 
 const createHandler = async (req, res) => {
     const newDocument = await req.Model.create(req.body)
