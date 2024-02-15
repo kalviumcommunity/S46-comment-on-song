@@ -6,6 +6,14 @@
 		"type": "git",
 		"url": "kalviumcommunity/s46-comment-on-song"
 	},
+	"scripts": {
+		"install": "concurrently \"cd backend && npm install\" \"cd frontend && npm install\"",
+		"dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm run dev\"",
+		"format": "concurrently \"cd backend && npm run format\" \"cd frontend && npm run format\""
+	},
 	"author": "Alwin Sunil",
-	"license": "ISC"
+	"license": "ISC",
+	"devDependencies": {
+		"concurrently": "^8.2.2"
+	}
 }
