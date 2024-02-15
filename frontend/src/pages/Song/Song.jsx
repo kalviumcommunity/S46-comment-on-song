@@ -1,20 +1,20 @@
 import React, { useContext, useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import { CurrentSongContext } from "@/context/CurrentSongContext"
+import axios from "@/axios"
 import "./Song.css"
 
 function Song() {
-    const { currentSong } = useContext(CurrentSongContext)
     const { id } = useParams()
+    const { currentSong } = useContext(CurrentSongContext)
 
     const [songData, setSongData] = useState([])
-
     const [threadID, setThreadID] = useState("")
     const [threadData, setThreadData] = useState([])
 
     const [platform, setPlatform] = useState("youtube")
 
-    const detectPlatform = (link) => {
+    const updatePlatformState = (link) => {
         if (link.includes("spotify.com")) {
             setPlatform("spotify")
         } else if (link.includes("youtube.com")) {
@@ -22,13 +22,31 @@ function Song() {
         }
     }
 
+    const updateState = (data) => {
+        updatePlatformState(data.link)
+        setSongData(data)
+        setThreadID(data.commentThreadID)
+    }
+
     useEffect(() => {
         if (currentSong.length != 0) {
-            detectPlatform(currentSong.link)
-            setSongData(currentSong)
-            setThreadID(currentSong.commentThreadID)
+            updateState(currentSong)
+        } else {
+            axios
+                .get(`/song/${id}`)
+                .then((res) => updateState(res.data))
+                .catch((err) => console.log(err))
         }
-    }, [id])
+    }, [id, currentSong])
+
+    useEffect(() => {
+        if (threadID) {
+            axios
+                .get(`/thread/${threadID}`)
+                .then((res) => setThreadData(res.data))
+                .catch((err) => console.log(err))
+        }
+    }, [threadID])
 
     return (
         <div className="fav-container">
@@ -67,24 +85,26 @@ function Song() {
                             Admiration for this song
                         </span>
                         {threadData.favoriteComments &&
-                            threadData.favoriteComments.map((comment) => (
-                                <div className="comment">
-                                    <span className="comment-user">
-                                        {comment.userID}
-                                    </span>
-                                    <span className="comment-content">
-                                        {comment.commentText}
-                                    </span>
-                                </div>
-                            ))}
+                            threadData.favoriteComments.map(
+                                (comment, index) => (
+                                    <div className="comment" key={index}>
+                                        <span className="comment-user">
+                                            {comment.userID}
+                                        </span>
+                                        <span className="comment-content">
+                                            {comment.commentText}
+                                        </span>
+                                    </div>
+                                ),
+                            )}
                     </div>
                     <div className="comments">
                         <span className="comments-header">
                             General comments
                         </span>
                         {threadData.generalComments &&
-                            threadData.generalComments.map((comment) => (
-                                <div className="comment">
+                            threadData.generalComments.map((comment, index) => (
+                                <div className="comment" key={index}>
                                     <span className="comment-user">
                                         {comment.userID}
                                     </span>

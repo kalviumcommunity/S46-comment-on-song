@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 import { CurrentSongContext } from "@/context/CurrentSongContext"
-import data from "@/data.json"
+import axios from "@/axios"
 import "./Feed.css"
 
 function Feed() {
@@ -9,12 +9,15 @@ function Feed() {
 
     const [songs, setSongs] = useState([])
 
-    const updateCurrentSong = (index) => {
-        setCurrentSong(songs[index])
+    const updateCurrentSong = (song) => {
+        setCurrentSong(song)
     }
 
     useEffect(() => {
-        setSongs(data)
+        axios
+            .get("/feed")
+            .then((res) => setSongs(res.data))
+            .catch((err) => console.log(err))
     }, [])
 
     return (
@@ -30,7 +33,7 @@ function Feed() {
                                 to={`/song/${song._id}`}
                                 className="song"
                                 key={index}
-                                onClick={() => updateCurrentSong(index)}
+                                onClick={() => updateCurrentSong(song)}
                             >
                                 <img className="song-art" src={song.artLink} />
                                 <div className="song-details">

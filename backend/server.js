@@ -1,66 +1,84 @@
-const express = require("express");
+require("dotenv").config()
 
-const { startDB, stopDB, isConnected } = require("./db");
-const crudRoutes = require("./routes/crud");
-const UserSchema = require("./models/user");
-const SongSchema = require("./models/song");
+const express = require("express")
+const cors = require("cors")
 
-const app = express();
-const port = 3000;
+const { startDB, stopDB, isConnected } = require("./db")
+const crudRoutes = require("./routes/crud")
+const feed = require("./routes/feed")
 
-app.use(express.json());
+const UserSchema = require("./models/user")
+const SongSchema = require("./models/song")
+const ThreadSchema = require("./models/thread")
+
+const app = express()
+const port = 3000
+
+app.use(
+    cors({
+        origin: process.env.FRONTEND_URL,
+        optionsSuccessStatus: 200,
+    }),
+)
+
+app.use(express.json())
 
 // Logging request and response time
 app.use((req, res, next) => {
-	const start = Date.now();
-	const logRequest = `[${new Date().toISOString()}] ${req.method} ${
-		req.originalUrl
-	}`;
+    const start = Date.now()
+    const logRequest = `[${new Date().toISOString()}] ${req.method} ${
+        req.originalUrl
+    }`
 
-	res.on("finish", () => {
-		const duration = Date.now() - start;
-		console.log(`${logRequest} - ${duration}ms`);
-	});
+    res.on("finish", () => {
+        const duration = Date.now() - start
+        console.log(`${logRequest} - ${duration}ms`)
+    })
 
-	next();
-});
+    next()
+})
 
-startDB();
+startDB()
 
 app.get("/", (req, res) => {
-	res.json({
-		"📦 Database connection status": isConnected()
-			? "✅ Connected"
-			: "❌ Not connected",
-	});
-});
+    res.json({
+        "📦 Database connection status": isConnected()
+            ? "✅ Connected"
+            : "❌ Not connected",
+    })
+})
 
 app.get("/ping", (req, res) => {
-	res.send("pong");
-});
+    res.send("pong")
+})
 
 app.get("/start", async (req, res) => {
-	let status = await startDB();
-	res.send(status);
-});
+    let status = await startDB()
+    res.send(status)
+})
 
 app.get("/close", async (req, res) => {
-	let status = await stopDB();
-	res.send(status);
-});
+    let status = await stopDB()
+    res.send(status)
+})
 
 const setModel = (req, res, next) => {
-	if (req.baseUrl === "/user") {
-		req.Model = UserSchema;
-	} else if (req.baseUrl === "/song") {
-		req.Model = SongSchema;
-	}
-	next();
-};
+    if (req.baseUrl === "/user") {
+        req.Model = UserSchema
+    } else if (req.baseUrl === "/song") {
+        req.Model = SongSchema
+    } else if (req.baseUrl === "/thread") {
+        req.Model = ThreadSchema
+    }
+    next()
+}
 
-app.use("/user", setModel, crudRoutes);
-app.use("/song", setModel, crudRoutes);
+app.use("/feed", feed)
+
+app.use("/user", setModel, crudRoutes)
+app.use("/song", setModel, crudRoutes)
+app.use("/thread", setModel, crudRoutes)
 
 app.listen(port, () => {
-	console.log(`Server listening at port ${port}`);
-});
+    console.log(`Server listening at port ${port}`)
+})
