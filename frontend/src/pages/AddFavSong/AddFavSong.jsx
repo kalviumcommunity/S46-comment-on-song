@@ -1,12 +1,12 @@
 import React, { useState } from "react"
 import { useForm } from "react-hook-form"
-import { Navigate } from "react-router-dom"
-import "./AddFavSong.css"
+import { Link } from "react-router-dom"
 import axios from "@/axios"
+import "./AddFavSong.css"
 
 function AddFavSong() {
     const [submission, setSubmission] = useState(false)
-    const [preview, setPreview] = useState(false)
+    const [submitLoader, setSubmitLoader] = useState(false)
     const [submissionStatus, setSubmissionStatus] = useState(null)
     const [userId, setUserId] = useState("user002")
 
@@ -17,16 +17,18 @@ function AddFavSong() {
     } = useForm()
 
     const onSubmit = (values) => {
-        setSubmission(true)
-        console.log(values)
+        setSubmitLoader((prevState) => !prevState)
         const payload = { ...values, userId: userId }
         axios
-            .post("/favsong/create", payload)
+            .post("/favsong/crate", payload)
             .then((res) => {
-                console.log(res)
-                setSubmissionStatus(res)
+                setSubmissionStatus({ status: "success", response: res })
             })
-            .catch((err) => setSubmission(err))
+            .catch((err) => {
+                setSubmissionStatus({ status: "error", axios: err })
+            })
+            .finally(() => setSubmitLoader((prevState) => !prevState))
+
         setSubmission(true)
     }
 
@@ -115,25 +117,41 @@ function AddFavSong() {
                     </>
                 ) : (
                     <div className="add-form">
-                        {submissionStatus && submissionStatus.status === 201 ? (
-                            <>
-                                <span className="add-form-status">
-                                    Song added successfully ✅
-                                </span>
-                            </>
-                        ) : (
-                            <>
-                                <span className="add-form-status">
-                                    ❌ Error adding the song. Please try again.
-                                </span>
-                                <button
-                                    className="add-form-reload"
-                                    onClick={() => location.reload()}
-                                >
-                                    Refresh and try again
-                                </button>
-                            </>
-                        )}
+                        {submissionStatus &&
+                            submissionStatus.status === "success" && (
+                                <>
+                                    <span className="add-form-status">
+                                        Song added successfully ✅
+                                    </span>
+                                    <Link
+                                        to="/feed"
+                                        className="add-form-reload"
+                                    >
+                                        <button>Go to feed</button>
+                                    </Link>
+                                </>
+                            )}
+                        {submissionStatus &&
+                            submissionStatus.status === "error" && (
+                                <>
+                                    <span className="add-form-status">
+                                        ❌ Error adding the song. Please try
+                                        again.
+                                    </span>
+                                    <button
+                                        className="add-form-reload"
+                                        onClick={() => location.reload()}
+                                    >
+                                        Refresh and try again
+                                    </button>
+                                </>
+                            )}
+                    </div>
+                )}
+                {submitLoader && (
+                    <div className="add-form-loader">
+                        <span className="add-form-status">Submiting...⌛</span>
+                        <span className="add-form-status">Please wait</span>
                     </div>
                 )}
             </div>
