@@ -19,7 +19,7 @@ function AddFavSong() {
     const onSubmit = (values) => {
         setSubmission(true)
         console.log(values)
-        const payload = { ...value, userId: userId }
+        const payload = { ...values, userId: userId }
         axios
             .post("/favsong/create", payload)
             .then((res) => {
