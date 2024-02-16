@@ -20,7 +20,7 @@ function AddFavSong() {
         setSubmitLoader((prevState) => !prevState)
         const payload = { ...values, userId: userId }
         axios
-            .post("/favsong/crate", payload)
+            .post("/favsong/create", payload)
             .then((res) => {
                 setSubmissionStatus({ status: "success", response: res })
             })
