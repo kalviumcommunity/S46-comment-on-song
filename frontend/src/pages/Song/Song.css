@@ -96,6 +96,10 @@
     gap: 0.5rem;
 }
 
+.comment-empty {
+    color: #4f4f4f;
+}
+
 .comment-user {
     font-weight: 500;
 }

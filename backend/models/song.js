@@ -5,7 +5,7 @@ const songScheme = new mongoose.Schema({
     link: String,
     artist: String,
     artLink: String,
-    songID: { type: String, unique: true },
+    createdAt: { type: Date, default: Date.now },
     commentThreadID: { type: String, unique: true },
 })
 

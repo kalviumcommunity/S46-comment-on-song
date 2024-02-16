@@ -38,7 +38,7 @@ function Feed() {
                                 <img className="song-art" src={song.artLink} />
                                 <div className="song-details">
                                     <span className="song-id">
-                                        #{song.songID}
+                                        #{song._id.slice(-5)}
                                     </span>
                                     <span className="song-title">
                                         {song.title}

@@ -8,18 +8,20 @@ import Onboarding from "@/pages/Onboarding"
 import Feed from "@/pages/Feed"
 import Profile from "@/pages/Profile"
 import Song from "@/pages/Song"
+import AddFavSong from "@/pages/AddFavSong"
 import "./App.css"
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(true)
+    const [userFavSong, setUserFavSong] = useState(false)
     const [currentSong, setCurrentSong] = useState([])
 
     return (
         <div className="container">
-            <Header />
             <CurrentSongContext.Provider
                 value={{ currentSong, setCurrentSong }}
             >
+                <Header />
                 <Routes>
                     <Route path="/" element={<Layout />}>
                         <Route index element={<Hero />} />
@@ -28,6 +30,10 @@ function App() {
                         {isLoggedIn ? (
                             <>
                                 <Route path="profile" element={<Profile />} />
+                                <Route
+                                    path="addfavsong"
+                                    element={<AddFavSong />}
+                                />
                                 <Route
                                     path="login"
                                     element={
@@ -47,6 +53,12 @@ function App() {
                                 <Route path="login" element={<Onboarding />} />
                                 <Route
                                     path="profile"
+                                    element={
+                                        <Navigate to="/login" replace={true} />
+                                    }
+                                />
+                                <Route
+                                    path="addfavsong"
                                     element={
                                         <Navigate to="/login" replace={true} />
                                     }
