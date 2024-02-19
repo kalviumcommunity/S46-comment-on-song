@@ -1,14 +1,18 @@
-import React, { useState } from "react"
+import React, { useContext, useState } from "react"
 import { useForm } from "react-hook-form"
 import { Link } from "react-router-dom"
+import { UserObjContext } from "@/context/UserObjContext"
+import { FavSongIdContext } from "@/context/FavSongIdContext"
 import axios from "@/axios"
 import "./AddFavSong.css"
 
-function AddFavSong() {
-    const [submission, setSubmission] = useState(false)
-    const [submitLoader, setSubmitLoader] = useState(false)
-    const [submissionStatus, setSubmissionStatus] = useState(null)
-    const [userId, setUserId] = useState("user002")
+function AddFavSong({ page }) {
+    const { userObj } = useContext(UserObjContext)
+    const { userFavSongId, setUserFavSongId } = useContext(FavSongIdContext)
+
+    const [isSubmitted, setIsSubmitted] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
+    const [submitStatus, setSubmitStatus] = useState(null)
 
     const {
         register,
@@ -16,28 +20,53 @@ function AddFavSong() {
         formState: { errors },
     } = useForm()
 
-    const onSubmit = (values) => {
-        setSubmitLoader((prevState) => !prevState)
-        const payload = { ...values, userId: userId }
+    const handleAddFavSong = (values, userId) => {
+        const songData = { ...values, userId: userId }
         axios
-            .post("/favsong/crate", payload)
+            .post("/favsong/create", songData)
             .then((res) => {
-                setSubmissionStatus({ status: "success", response: res })
+                setSubmitStatus({
+                    status: "success",
+                    response: res,
+                })
+                setUserFavSongId(res.data._id)
             })
             .catch((err) => {
-                setSubmissionStatus({ status: "error", axios: err })
+                setSubmitStatus({ status: "error", error: err })
             })
-            .finally(() => setSubmitLoader((prevState) => !prevState))
+            .finally(() => setIsLoading(false))
+    }
 
-        setSubmission(true)
+    const handleEditFavSong = (values, songId, userId) => {
+        const songData = { ...values, userId }
+        axios
+            .patch(`/favsong/edit/${songId}`, songData)
+            .then((res) => {
+                setSubmitStatus({
+                    status: "success",
+                    response: res,
+                })
+            })
+            .catch((err) => setSubmitStatus({ status: "error", error: err }))
+            .finally(() => setIsLoading(false))
+    }
+
+    const onSubmit = (values) => {
+        setIsLoading(true)
+
+        if (page === "Add") handleAddFavSong(values, userObj._id)
+        else if (page === "Edit")
+            handleEditFavSong(values, userFavSongId, userObj._id)
+
+        setIsSubmitted(true)
     }
 
     return (
         <div className="addsong">
             <div className="addsong-container">
-                {!submission ? (
+                {!isSubmitted ? (
                     <>
-                        <h2>Add your favourite song now!</h2>
+                        <h2>{page} your favourite song now!</h2>
                         <form
                             className="add-form"
                             onSubmit={handleSubmit(onSubmit)}
@@ -111,44 +140,47 @@ function AddFavSong() {
                                 )}
                             </div>
                             <div className="add-form-element">
-                                <button type="submit">Add the song</button>
+                                <button type="submit">{page} the song</button>
                             </div>
                         </form>
                     </>
                 ) : (
                     <div className="add-form">
-                        {submissionStatus &&
-                            submissionStatus.status === "success" && (
-                                <>
-                                    <span className="add-form-status">
-                                        Song added successfully ✅
-                                    </span>
-                                    <Link
-                                        to="/feed"
-                                        className="add-form-reload"
-                                    >
-                                        <button>Go to feed</button>
-                                    </Link>
-                                </>
-                            )}
-                        {submissionStatus &&
-                            submissionStatus.status === "error" && (
-                                <>
-                                    <span className="add-form-status">
-                                        ❌ Error adding the song. Please try
-                                        again.
-                                    </span>
-                                    <button
-                                        className="add-form-reload"
-                                        onClick={() => location.reload()}
-                                    >
-                                        Refresh and try again
-                                    </button>
-                                </>
-                            )}
+                        {submitStatus && submitStatus.status === "success" && (
+                            <>
+                                <span className="add-form-status">
+                                    {page === "Add"
+                                        ? "Song added successfully ✅"
+                                        : page === "Edit"
+                                          ? "Song edited successfully ✅"
+                                          : null}
+                                </span>
+                                <Link to="/feed" className="add-form-reload">
+                                    <button>Go to feed</button>
+                                </Link>
+                            </>
+                        )}
+                        {submitStatus && submitStatus.status === "error" && (
+                            <>
+                                <span className="add-form-status">
+                                    {page === "Add"
+                                        ? "❌ Error adding the song. "
+                                        : page === "Edit"
+                                          ? "❌ Error editing the song. "
+                                          : null}
+                                    Please try again.
+                                </span>
+                                <button
+                                    className="add-form-reload"
+                                    onClick={() => location.reload()}
+                                >
+                                    Refresh and try again
+                                </button>
+                            </>
+                        )}
                     </div>
                 )}
-                {submitLoader && (
+                {isLoading && (
                     <div className="add-form-loader">
                         <span className="add-form-status">Submiting...⌛</span>
                         <span className="add-form-status">Please wait</span>

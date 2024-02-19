@@ -1,15 +1,44 @@
-import React, { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
+import React, { useContext, useEffect, useState } from "react"
+import { UserObjContext } from "@/context/UserObjContext"
+import { FavSongIdContext } from "@/context/FavSongIdContext"
+import { Link, useNavigate } from "react-router-dom"
 import axios from "@/axios"
 import "./Profile.css"
 
 function Profile() {
-    const [userId, setUserId] = useState("65bcc1c5f41bdebc943a50df")
-    const [userFavSong, setUserFavSong] = useState(true)
-    const [userFavSongId, setUserFavSongId] = useState(
-        "65bcc1c5f41bdebc943a50df",
-    )
+    const navigate = useNavigate()
+
+    const { userObj } = useContext(UserObjContext)
+    const { userFavSongId, setUserFavSongId } = useContext(FavSongIdContext)
+
     const [userFavSongData, setUserFavSongData] = useState(null)
+
+    const removeFavSong = () => {
+        axios
+            .patch("favsong/remove", {
+                userId: userObj._id,
+                userFavSong: userFavSongId,
+            })
+            .then(() => {
+                setUserFavSongId(null)
+                setUserFavSongData(null)
+                alert("Favorite song removed successfully")
+            })
+            .catch((err) => {
+                console.log(err)
+                alert("Failed to remove favorite song")
+            })
+    }
+
+    const handleEditFavSong = () => {
+        navigate("/editfavsong")
+    }
+
+    const handleRemoveFavSong = () => {
+        if (confirm("Are you sure to remove current fav song?")) {
+            removeFavSong()
+        }
+    }
 
     useEffect(() => {
         if (userFavSongId) {
@@ -18,7 +47,10 @@ function Profile() {
                 .then((res) => {
                     setUserFavSongData(res.data)
                 })
-                .catch((err) => console.log(err))
+                .catch((err) => {
+                    console.log(err)
+                    alert("Failed to load favorite song")
+                })
         }
     }, [userFavSongId])
 
@@ -26,26 +58,30 @@ function Profile() {
         <div className="profile">
             <div className="profile-header">
                 <h1>Profile</h1>
-                <div className="profile-card">
-                    <img
-                        src={`https://api.dicebear.com/7.x/fun-emoji/svg?seed=user-name`}
-                        alt=""
-                    />
+                {userObj && (
+                    <div className="profile-card">
+                        <img
+                            src={`https://api.dicebear.com/7.x/fun-emoji/svg?seed=${userObj.userName}`}
+                            alt=""
+                        />
 
-                    <div className="profile-details">
-                        <span className="profile-name">User Name</span>
-                        <span className="profile-email">
-                            alv12user@gmail.com
-                        </span>
-                    </div>
+                        <div className="profile-details">
+                            <span className="profile-name">
+                                {userObj.userName}
+                            </span>
+                            <span className="profile-email">
+                                {userObj.userEmail}
+                            </span>
+                        </div>
 
-                    <div className="logout">
-                        <button>Logout</button>
+                        <div className="logout">
+                            <button>Logout</button>
+                        </div>
                     </div>
-                </div>
+                )}
             </div>
             <div className="profile-actions">
-                {userFavSong && userFavSongData && (
+                {userFavSongData ? (
                     <div className="profile-usersong">
                         <h1>Your favorite song</h1>
                         <div className="usersong">
@@ -68,20 +104,29 @@ function Profile() {
                                 </div>
                             </Link>
                             <div className="usersong-actions">
-                                <button className="usersong-edit">Edit</button>
-                                <button className="usersong-remove">
+                                <button
+                                    className="usersong-edit"
+                                    onClick={() => handleEditFavSong()}
+                                >
+                                    Edit
+                                </button>
+                                <button
+                                    className="usersong-remove"
+                                    onClick={() => handleRemoveFavSong()}
+                                >
                                     Remove favourite
                                 </button>
                             </div>
                         </div>
                     </div>
+                ) : (
+                    <Link to="/addfavsong" className="action add">
+                        <span className="add-sub">Click here to share</span>
+                        <span className="add-heading">
+                            Share your favourite <br /> song ↗️
+                        </span>
+                    </Link>
                 )}
-                <Link to="/addfavsong" className="action add">
-                    <span className="add-sub">Click here to share</span>
-                    <span className="add-heading">
-                        Share your favourite <br /> song ↗️
-                    </span>
-                </Link>
             </div>
         </div>
     )

@@ -9,7 +9,7 @@ function Song() {
     const { currentSong } = useContext(CurrentSongContext)
 
     const [songData, setSongData] = useState([])
-    const [threadID, setThreadID] = useState("")
+    const [threadId, setThreadId] = useState("")
     const [threadData, setThreadData] = useState([])
 
     const [platform, setPlatform] = useState("youtube")
@@ -25,7 +25,7 @@ function Song() {
     const updateState = (data) => {
         updatePlatformState(data.link)
         setSongData(data)
-        setThreadID(data.commentThreadID)
+        setThreadId(data.commentThreadId)
     }
 
     useEffect(() => {
@@ -40,13 +40,13 @@ function Song() {
     }, [id, currentSong])
 
     useEffect(() => {
-        if (threadID) {
+        if (threadId) {
             axios
-                .get(`/thread/${threadID}`)
+                .get(`/thread/${threadId}`)
                 .then((res) => setThreadData(res.data))
                 .catch((err) => console.log(err))
         }
-    }, [threadID])
+    }, [threadId])
 
     return (
         <div className="fav-container">
@@ -90,7 +90,7 @@ function Song() {
                                 (comment, index) => (
                                     <div className="comment" key={index}>
                                         <span className="comment-user">
-                                            user-{comment.userID.slice(-4)}
+                                            user-{comment.userId.slice(-4)}
                                         </span>
                                         <span className="comment-content">
                                             {comment.commentText}
@@ -113,7 +113,7 @@ function Song() {
                             threadData.generalComments.map((comment, index) => (
                                 <div className="comment" key={index}>
                                     <span className="comment-user">
-                                        {comment.userID}
+                                        {comment.userId}
                                     </span>
                                     <span className="comment-content">
                                         {comment.commentText}

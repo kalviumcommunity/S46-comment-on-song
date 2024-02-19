@@ -1,6 +1,6 @@
 const express = require("express")
 
-const validateDocumentID = require("../middlewares/validateDocumentID")
+const validateDocIDParam = require("../middlewares/validateDocIDParam")
 const asyncHandler = require("../middlewares/asyncHandler")
 
 const router = express.Router()
@@ -12,10 +12,6 @@ const createHandler = async (req, res) => {
 
 const readHandler = async (req, res) => {
     const document = await req.Model.findById(req.params.id)
-
-    if (!document) {
-        return res.status(404).json({ error: "Document not found" })
-    }
 
     return res.status(200).json(document)
 }
@@ -44,9 +40,9 @@ const deleteHandler = async (req, res) => {
     return res.status(204).send({ action: "successful" })
 }
 
-router.get("/:id", validateDocumentID, asyncHandler(readHandler))
+router.get("/:id", validateDocIDParam, asyncHandler(readHandler))
 router.post("/create", createHandler)
-router.patch("/update/:id", validateDocumentID, asyncHandler(patchHandler))
-router.delete("/delete/:id", validateDocumentID, asyncHandler(deleteHandler))
+router.patch("/update/:id", validateDocIDParam, asyncHandler(patchHandler))
+router.delete("/delete/:id", validateDocIDParam, asyncHandler(deleteHandler))
 
 module.exports = router

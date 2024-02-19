@@ -176,6 +176,10 @@
         padding: 1rem 1rem 2rem 1rem;
     }
 
+    .profile-usersong {
+        width: 100%;
+    }
+
     .profile-card {
         justify-content: space-between;
         flex-wrap: wrap;
@@ -191,14 +195,6 @@
 
     .usersong {
         width: 100%;
-    }
-
-    .usersong-link {
-        flex-direction: column;
-    }
-
-    .usersong-actions {
-        justify-content: start;
     }
 
     .add {
