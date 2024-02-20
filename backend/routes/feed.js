@@ -1,12 +1,12 @@
 const express = require("express")
 
-const SongSchema = require("../models/song")
+const Song = require("../models/song")
 
 const router = express.Router()
 
 const loadFeed = async (req, res) => {
     try {
-        const songs = await SongSchema.find().sort({ _id: -1 }).lean()
+        const songs = await Song.find().sort({ _id: -1 }).lean()
         res.json(songs)
     } catch (error) {
         console.error("Error loading feed:", error)

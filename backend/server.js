@@ -4,8 +4,10 @@ const express = require("express")
 const cors = require("cors")
 
 const { startDB, stopDB, isConnected } = require("./db")
-const crudRoutes = require("./routes/crud")
+
 const feed = require("./routes/feed")
+const userRoutes = require("./routes/user")
+const crudRoutes = require("./routes/crud")
 const favsong = require("./routes/favsong")
 
 const UserSchema = require("./models/user")
@@ -75,12 +77,11 @@ const setModel = (req, res, next) => {
 }
 
 app.use("/feed", feed)
+app.use("/favsong", favsong)
+app.use("/user", userRoutes)
 
-app.use("/user", setModel, crudRoutes)
 app.use("/song", setModel, crudRoutes)
 app.use("/thread", setModel, crudRoutes)
-
-app.use("/favsong", favsong)
 
 app.listen(port, () => {
     console.log(`Server listening at port ${port}`)
