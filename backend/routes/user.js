@@ -10,7 +10,7 @@ const router = express.Router()
 const readUserHandler = async (req, res) => {
     const userId = req.headers.authorization
 
-    const document = await UserModel.findById(userId)
+    const document = await UserModel.findById(userId).select("-userPassword")
 
     return res.status(200).json(document)
 }

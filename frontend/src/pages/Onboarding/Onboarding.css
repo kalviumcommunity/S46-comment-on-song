@@ -65,6 +65,13 @@
     border: 3px solid black;
 }
 
+.on-form-err {
+    font-size: 0.8rem;
+    line-height: 1rem;
+    font-weight: 500;
+    color: red;
+}
+
 hr {
     border-color: #fafafa;
     background-color: #fafafa;
