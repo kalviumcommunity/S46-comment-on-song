@@ -1,4 +1,6 @@
 const express = require("express")
+const Joi = require("joi")
+
 const asyncHandler = require("../middlewares/asyncHandler")
 const getSongMetadata = require("../helpers/getSongMetadata")
 
@@ -13,9 +15,25 @@ const checkFavSongExistsForUser = async (userId) => {
     return user && user.favoriteSong ? true : false
 }
 
+const validateReqBody = (req, res, next) => {
+    const { error: inputError } = Joi.object({
+        link: Joi.string().uri().required(),
+        userId: Joi.string().required(),
+        title: Joi.string().required(),
+        artist: Joi.string().required(),
+        comment: Joi.string().required(),
+    }).validate(req.body)
+
+    if (inputError) {
+        return res.status(400).json({ error: inputError.details[0].message })
+    }
+
+    next()
+}
+
 // Middleware to generate song metadata
 const generateSongAndThread = asyncHandler(async (req, res, next) => {
-    const { userId, link, comment, artist, title } = req.body
+    const { userId, link, title, artist, comment } = req.body
 
     const hasFavSong = await checkFavSongExistsForUser(userId)
     if (hasFavSong) {
@@ -35,8 +53,8 @@ const generateSongAndThread = asyncHandler(async (req, res, next) => {
     const songObject = {
         link: songLink,
         artLink,
-        artist,
         title,
+        artist,
         commentThreadId: threadObject._id.toString(),
     }
 
@@ -88,8 +106,13 @@ const removeSong = async (req, res) => {
     res.status(200).json({ message: "Favorite song removed successfully" })
 }
 
-router.post("/create", generateSongAndThread, asyncHandler(createSong))
-router.patch("/edit/:id", asyncHandler(editSong))
+router.post(
+    "/create",
+    validateReqBody,
+    generateSongAndThread,
+    asyncHandler(createSong),
+)
+router.patch("/edit/:id", validateReqBody, asyncHandler(editSong))
 router.patch("/remove", asyncHandler(removeSong))
 
 module.exports = router
