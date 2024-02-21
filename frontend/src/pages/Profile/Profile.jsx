@@ -1,9 +1,6 @@
 import React, { useContext, useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
-import { UserIdContext } from "@/context/UserIdContext"
-import { UserStatusContext } from "@/context/UserStatusContext"
-import { UserObjContext } from "@/context/UserObjContext"
-import { FavSongIdContext } from "@/context/FavSongIdContext"
+import { AppContext } from "@/App"
 import { setCookie } from "@/helpers/cookies"
 import axios from "@/axios"
 import "./Profile.css"
@@ -11,10 +8,8 @@ import "./Profile.css"
 function Profile() {
     const navigate = useNavigate()
 
-    const { setIsUserLoggedIn } = useContext(UserStatusContext)
-    const { setUserId } = useContext(UserIdContext)
-    const { userObj } = useContext(UserObjContext)
-    const { userFavSongId, setUserFavSongId } = useContext(FavSongIdContext)
+    const { setUserId, userObj, userFavSongId, setUserFavSongId } =
+        useContext(AppContext)
 
     const [userFavSongData, setUserFavSongData] = useState(null)
 
@@ -22,7 +17,6 @@ function Profile() {
         if (confirm("Are you sure to logout?")) {
             setCookie("userId", null, null)
             setUserId(null)
-            setIsUserLoggedIn(false)
             navigate("/feed")
         }
     }

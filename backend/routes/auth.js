@@ -10,7 +10,9 @@ const loginHandler = async (req, res) => {
 
     const user = await User.findOne({ userEmail: email })
     if (!user) {
-        return res.status(400).json({ error: "Invalid email" })
+        return res.status(400).json({
+            error: "Email not found. Please sign up or try again.",
+        })
     }
 
     const isMatch = await bcrypt.compare(password, user.userPassword)
@@ -26,7 +28,9 @@ const signupHandler = async (req, res) => {
 
     const existingUser = await User.findOne({ userEmail: email })
     if (existingUser) {
-        return res.status(400).json({ error: "Email already registered" })
+        return res
+            .status(400)
+            .json({ error: "Email already registered. Please login" })
     }
 
     if (password !== confirmPassword) {

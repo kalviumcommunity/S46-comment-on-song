@@ -1,13 +1,13 @@
 import { useState, useEffect, useContext } from "react"
 import { Link, useLocation } from "react-router-dom"
 import { useForm } from "react-hook-form"
+import { AppContext } from "@/App"
 import { setCookie } from "@/helpers/cookies"
-import { UserStatusContext } from "@/context/UserStatusContext"
 import axios from "@/axios"
 import "./Onboarding.css"
 
 function Signup() {
-    const { setIsUserLoggedIn } = useContext(UserStatusContext)
+    const { setUserId } = useContext(AppContext)
 
     const {
         register,
@@ -24,10 +24,15 @@ function Signup() {
             .then((res) => {
                 const userId = res.data.user._id
                 setCookie("userId", userId, 365)
-                setIsUserLoggedIn(true)
+                setUserId(userId)
             })
             .catch((err) => {
                 console.log(err)
+                if (err.response.data.error) {
+                    alert(err.response.data.error)
+                } else {
+                    alert("Failed connecting to server. Try again later")
+                }
             })
     }
 
@@ -139,7 +144,7 @@ function Signup() {
 }
 
 function Login() {
-    const { setIsUserLoggedIn } = useContext(UserStatusContext)
+    const { setUserId } = useContext(AppContext)
 
     const {
         register,
@@ -153,10 +158,15 @@ function Login() {
             .then((res) => {
                 const userId = res.data.user._id
                 setCookie("userId", userId, 365)
-                setIsUserLoggedIn(true)
+                setUserId(userId)
             })
             .catch((err) => {
                 console.log(err)
+                if (err.response.data.error) {
+                    alert(err.response.data.error)
+                } else {
+                    alert("Failed connecting to server. Try again later")
+                }
             })
     }
 
