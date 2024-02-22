@@ -5,6 +5,7 @@ const cors = require("cors")
 
 const { startDB, stopDB, isConnected } = require("./db")
 
+const auth = require("./routes/auth")
 const feed = require("./routes/feed")
 const userRoutes = require("./routes/user")
 const crudRoutes = require("./routes/crud")
@@ -76,6 +77,7 @@ const setModel = (req, res, next) => {
     next()
 }
 
+app.use("/auth", auth)
 app.use("/feed", feed)
 app.use("/favsong", favsong)
 app.use("/user", userRoutes)

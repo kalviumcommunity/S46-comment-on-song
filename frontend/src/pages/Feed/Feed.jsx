@@ -1,11 +1,11 @@
 import React, { useContext, useState, useEffect } from "react"
 import { Link } from "react-router-dom"
-import { CurrentSongContext } from "@/context/CurrentSongContext"
 import axios from "@/axios"
 import "./Feed.css"
+import { AppContext } from "@/App"
 
 function Feed() {
-    const { setCurrentSong } = useContext(CurrentSongContext)
+    const { setCurrentSong } = useContext(AppContext)
 
     const [songs, setSongs] = useState([])
 

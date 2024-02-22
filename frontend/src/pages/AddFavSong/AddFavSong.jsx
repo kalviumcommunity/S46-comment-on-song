@@ -1,14 +1,12 @@
 import React, { useContext, useState } from "react"
 import { useForm } from "react-hook-form"
 import { Link } from "react-router-dom"
-import { UserObjContext } from "@/context/UserObjContext"
-import { FavSongIdContext } from "@/context/FavSongIdContext"
+import { AppContext } from "@/App"
 import axios from "@/axios"
 import "./AddFavSong.css"
 
 function AddFavSong({ page }) {
-    const { userObj } = useContext(UserObjContext)
-    const { userFavSongId, setUserFavSongId } = useContext(FavSongIdContext)
+    const { userFavSongId, setUserFavSongId, userObj } = useContext(AppContext)
 
     const [isSubmitted, setIsSubmitted] = useState(false)
     const [isLoading, setIsLoading] = useState(false)

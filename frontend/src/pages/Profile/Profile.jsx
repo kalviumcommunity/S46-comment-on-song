@@ -1,17 +1,25 @@
 import React, { useContext, useEffect, useState } from "react"
-import { UserObjContext } from "@/context/UserObjContext"
-import { FavSongIdContext } from "@/context/FavSongIdContext"
 import { Link, useNavigate } from "react-router-dom"
+import { AppContext } from "@/App"
+import { setCookie } from "@/helpers/cookies"
 import axios from "@/axios"
 import "./Profile.css"
 
 function Profile() {
     const navigate = useNavigate()
 
-    const { userObj } = useContext(UserObjContext)
-    const { userFavSongId, setUserFavSongId } = useContext(FavSongIdContext)
+    const { setUserId, userObj, userFavSongId, setUserFavSongId } =
+        useContext(AppContext)
 
     const [userFavSongData, setUserFavSongData] = useState(null)
+
+    const handleLogout = () => {
+        if (confirm("Are you sure to logout?")) {
+            setCookie("userId", null, null)
+            setUserId(null)
+            navigate("/feed")
+        }
+    }
 
     const removeFavSong = () => {
         axios
@@ -75,7 +83,7 @@ function Profile() {
                         </div>
 
                         <div className="logout">
-                            <button>Logout</button>
+                            <button onClick={handleLogout}>Logout</button>
                         </div>
                     </div>
                 )}

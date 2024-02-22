@@ -1,8 +1,6 @@
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Routes, Route, Navigate } from "react-router-dom"
-import { CurrentSongContext } from "@/context/CurrentSongContext"
-import { UserObjContext } from "@/context/UserObjContext"
-import { FavSongIdContext } from "@/context/FavSongIdContext"
+import { getCookie } from "@/helpers/cookies"
 import Layout from "@/Layout"
 import Header from "@/components/Header"
 import Hero from "@/components/Hero"
@@ -14,12 +12,22 @@ import AddFavSong from "@/pages/AddFavSong"
 import axios from "@/axios"
 import "./App.css"
 
+export const AppContext = React.createContext()
+
 function App() {
-    const [isLoggedIn, setIsLoggedIn] = useState(true)
-    const [userId, setUserId] = useState("65bcbffe7ffa1414707f25d0")
+    const [userId, setUserId] = useState(null)
     const [userObj, setUserObj] = useState(null)
     const [currentSong, setCurrentSong] = useState([])
     const [userFavSongId, setUserFavSongId] = useState(null)
+
+    useEffect(() => {
+        const userIdFromCookie = getCookie("userId")
+        if (userIdFromCookie == "null") {
+            setUserId(null)
+        } else {
+            setUserId(userIdFromCookie)
+        }
+    }, [])
 
     useEffect(() => {
         if (userId) {
@@ -30,97 +38,74 @@ function App() {
                     setUserFavSongId(res.data.favoriteSong)
                     setUserObj(res.data)
                 })
-                .catch((err) => console.log(err))
+                .catch((err) => console.error(err))
         }
     }, [userId])
 
+    const appContextValue = {
+        userId,
+        userObj,
+        currentSong,
+        userFavSongId,
+        setUserId,
+        setCurrentSong,
+        setUserFavSongId,
+    }
+
     return (
         <div className="container">
-            <UserObjContext.Provider value={{ userObj, setUserObj }}>
-                <CurrentSongContext.Provider
-                    value={{ currentSong, setCurrentSong }}
-                >
-                    <FavSongIdContext.Provider
-                        value={{ userFavSongId, setUserFavSongId }}
-                    >
-                        <Header />
-                        <Routes>
-                            <Route path="/" element={<Layout />}>
-                                <Route index element={<Hero />} />
-                                <Route path="feed" element={<Feed />} />
-                                <Route path="song/:id" element={<Song />} />
-                                {isLoggedIn ? (
-                                    <>
-                                        <Route
-                                            path="profile"
-                                            element={<Profile />}
-                                        />
-                                        <Route
-                                            path="addfavsong"
-                                            element={
-                                                <AddFavSong page={"Add"} />
-                                            }
-                                        />
-                                        <Route
-                                            path="editfavsong"
-                                            element={
-                                                <AddFavSong page={"Edit"} />
-                                            }
-                                        />
-                                        <Route
-                                            path="login"
-                                            element={
-                                                <Navigate
-                                                    to="/feed"
-                                                    replace={true}
-                                                />
-                                            }
-                                        />
-                                        <Route
-                                            path="signup"
-                                            element={
-                                                <Navigate
-                                                    to="/feed"
-                                                    replace={true}
-                                                />
-                                            }
-                                        />
-                                    </>
-                                ) : (
-                                    <>
-                                        <Route
-                                            path="signup"
-                                            element={<Onboarding />}
-                                        />
-                                        <Route
-                                            path="login"
-                                            element={<Onboarding />}
-                                        />
-                                        <Route
-                                            path="profile"
-                                            element={
-                                                <Navigate
-                                                    to="/login"
-                                                    replace={true}
-                                                />
-                                            }
-                                        />
-                                        <Route
-                                            path="addfavsong"
-                                            element={
-                                                <Navigate
-                                                    to="/login"
-                                                    replace={true}
-                                                />
-                                            }
-                                        />
-                                    </>
-                                )}
-                            </Route>
-                        </Routes>
-                    </FavSongIdContext.Provider>
-                </CurrentSongContext.Provider>
-            </UserObjContext.Provider>
+            <AppContext.Provider value={appContextValue}>
+                <Header />
+                <Routes>
+                    <Route path="/" element={<Layout />}>
+                        <Route index element={<Hero />} />
+                        <Route path="feed" element={<Feed />} />
+                        <Route path="song/:id" element={<Song />} />
+                        {userId ? (
+                            <>
+                                <Route path="profile" element={<Profile />} />
+                                <Route
+                                    path="addfavsong"
+                                    element={<AddFavSong page={"Add"} />}
+                                />
+                                <Route
+                                    path="editfavsong"
+                                    element={<AddFavSong page={"Edit"} />}
+                                />
+                                <Route
+                                    path="login"
+                                    element={
+                                        <Navigate to="/feed" replace={true} />
+                                    }
+                                />
+                                <Route
+                                    path="signup"
+                                    element={
+                                        <Navigate to="/feed" replace={true} />
+                                    }
+                                />
+                            </>
+                        ) : (
+                            <>
+                                <Route path="signup" element={<Onboarding />} />
+                                <Route path="login" element={<Onboarding />} />
+                                <Route
+                                    path="profile"
+                                    element={
+                                        <Navigate to="/login" replace={true} />
+                                    }
+                                />
+                                <Route
+                                    path="addfavsong"
+                                    element={
+                                        <Navigate to="/login" replace={true} />
+                                    }
+                                />
+                            </>
+                        )}
+                    </Route>
+                </Routes>
+            </AppContext.Provider>
         </div>
     )
 }

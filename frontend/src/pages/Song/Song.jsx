@@ -1,12 +1,12 @@
 import React, { useContext, useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
-import { CurrentSongContext } from "@/context/CurrentSongContext"
+import { AppContext } from "@/App"
 import axios from "@/axios"
 import "./Song.css"
 
 function Song() {
     const { id } = useParams()
-    const { currentSong } = useContext(CurrentSongContext)
+    const { currentSong } = useContext(AppContext)
 
     const [songData, setSongData] = useState([])
     const [threadId, setThreadId] = useState("")

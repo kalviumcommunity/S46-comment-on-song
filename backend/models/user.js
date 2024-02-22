@@ -1,10 +1,10 @@
 const mongoose = require("mongoose")
 
 const userSchema = new mongoose.Schema({
-    userId: { type: String, unique: true },
     userName: String,
     userEmail: { type: String, unique: true },
-    favoriteSong: { type: String, unique: true },
+    userPassword: { type: String },
+    favoriteSong: { type: String, default: "" },
 })
 
 const User = mongoose.model("users", userSchema)
