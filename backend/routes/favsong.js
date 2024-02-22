@@ -24,7 +24,16 @@ const generateSongAndThread = asyncHandler(async (req, res, next) => {
             .json({ error: "User already has a favorite song" })
     }
 
-    const { link: songLink, artLink } = await getSongMetadata(link)
+    const {
+        link: songLink,
+        artLink,
+        error,
+        message,
+    } = await getSongMetadata(link)
+
+    if (error || !songLink || !artLink) {
+        return res.status(400).json({ error: "Invalid link provided" })
+    }
 
     const threadObject = await Thread.create({
         favoriteComments: [

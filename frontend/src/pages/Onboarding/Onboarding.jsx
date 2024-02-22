@@ -7,7 +7,7 @@ import axios from "@/axios"
 import "./Onboarding.css"
 
 function Signup() {
-    const { setUserId } = useContext(AppContext)
+    const { setUserExists } = useContext(AppContext)
 
     const {
         register,
@@ -22,9 +22,8 @@ function Signup() {
         axios
             .post("auth/signup", values)
             .then((res) => {
-                const userId = res.data.user._id
-                setCookie("userId", userId, 365)
-                setUserId(userId)
+                setUserExists(true)
+                alert(res.data.message)
             })
             .catch((err) => {
                 console.log(err)
@@ -144,7 +143,7 @@ function Signup() {
 }
 
 function Login() {
-    const { setUserId } = useContext(AppContext)
+    const { setUserExists } = useContext(AppContext)
 
     const {
         register,
@@ -154,11 +153,10 @@ function Login() {
 
     const onLogin = (values) => {
         axios
-            .post("auth/login", values)
+            .post("auth/login", values, { withCredentials: true })
             .then((res) => {
-                const userId = res.data.user._id
-                setCookie("userId", userId, 365)
-                setUserId(userId)
+                setUserExists(true)
+                alert(res.data.message)
             })
             .catch((err) => {
                 console.log(err)
@@ -216,6 +214,26 @@ function Login() {
                             <span className="on-form-err">
                                 {errors.password.message}
                             </span>
+                        )}
+                    </div>
+                    <div className="on-form-element">
+                        <div className="terms-checkbox">
+                            <input
+                                type="checkbox"
+                                id="terms"
+                                {...register("terms", {
+                                    required:
+                                        "You must agree to the terms and conditions",
+                                })}
+                            />
+                            <label htmlFor="terms" className="terms-label">
+                                I agree to the terms and conditions
+                            </label>
+                        </div>
+                        {errors.terms && (
+                            <div className="on-form-err">
+                                {errors.terms.message}
+                            </div>
                         )}
                     </div>
                     <div className="on-form-element">

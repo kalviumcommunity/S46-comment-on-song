@@ -15,23 +15,22 @@ import "./App.css"
 export const AppContext = React.createContext()
 
 function App() {
-    const [userId, setUserId] = useState(null)
+    const [userExists, setUserExists] = useState(false)
     const [userObj, setUserObj] = useState(null)
     const [currentSong, setCurrentSong] = useState([])
     const [userFavSongId, setUserFavSongId] = useState(null)
 
     useEffect(() => {
-        const userIdFromCookie = getCookie("userId")
-        if (userIdFromCookie == "null") {
-            setUserId(null)
+        const tokenFromCookie = getCookie("token")
+        if (tokenFromCookie == "null") {
+            setUserExists(null)
         } else {
-            setUserId(userIdFromCookie)
+            setUserExists(tokenFromCookie)
         }
     }, [])
 
     useEffect(() => {
-        if (userId) {
-            axios.defaults.headers.common["Authorization"] = userId
+        if (userExists) {
             axios
                 .get("/user")
                 .then((res) => {
@@ -40,14 +39,14 @@ function App() {
                 })
                 .catch((err) => console.error(err))
         }
-    }, [userId])
+    }, [userExists])
 
     const appContextValue = {
-        userId,
+        userExists,
         userObj,
         currentSong,
         userFavSongId,
-        setUserId,
+        setUserExists,
         setCurrentSong,
         setUserFavSongId,
     }
@@ -61,7 +60,7 @@ function App() {
                         <Route index element={<Hero />} />
                         <Route path="feed" element={<Feed />} />
                         <Route path="song/:id" element={<Song />} />
-                        {userId ? (
+                        {userExists ? (
                             <>
                                 <Route path="profile" element={<Profile />} />
                                 <Route

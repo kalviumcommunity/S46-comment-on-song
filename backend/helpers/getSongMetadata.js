@@ -72,10 +72,9 @@ async function getSongMetadata(songLink) {
             }
         }
     } catch (err) {
-        console.error(err)
         return {
-            error: 500,
-            message: "Internal server error",
+            error: err.error,
+            message: err.message,
         }
     }
 }

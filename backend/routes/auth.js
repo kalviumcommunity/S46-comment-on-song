@@ -1,14 +1,27 @@
 const express = require("express")
 const bcrypt = require("bcrypt")
+const jwt = require("jsonwebtoken")
 
 const router = express.Router()
 
 const User = require("../models/user")
 
+const JWT_EXP_IN = "30d"
+const COOKIE_MAX_AGE = 2592000000 // 30 days in milliseconds
+
+const generateJwtToken = async (userId) => {
+    const token = await jwt.sign({ userId: userId }, process.env.JWT_SECRET, {
+        expiresIn: JWT_EXP_IN,
+    })
+
+    return token
+}
+
 const loginHandler = async (req, res) => {
     const { email, password } = req.body
 
     const user = await User.findOne({ userEmail: email })
+
     if (!user) {
         return res.status(400).json({
             error: "Email not found. Please sign up or try again.",
@@ -20,7 +33,13 @@ const loginHandler = async (req, res) => {
         return res.status(400).json({ error: "Invalid password" })
     }
 
-    res.status(200).json({ message: "Login successful", user: user })
+    const token = await generateJwtToken(user._id.toString())
+
+    res.cookie("token", token, {
+        maxAge: COOKIE_MAX_AGE,
+    })
+
+    res.status(200).json({ message: "Login successful" })
 }
 
 const signupHandler = async (req, res) => {
@@ -47,9 +66,14 @@ const signupHandler = async (req, res) => {
 
     await newUser.save()
 
+    const token = await generateJwtToken(user._id.toString())
+
+    res.cookie("token", token, {
+        maxAge: COOKIE_MAX_AGE,
+    })
+
     res.status(200).json({
         message: "User registered successfully",
-        user: newUser,
     })
 }
 
