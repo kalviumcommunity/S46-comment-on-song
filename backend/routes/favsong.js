@@ -1,4 +1,5 @@
 const express = require("express")
+const Joi = require("joi")
 
 const getUserIdFromToken = require("../middlewares/getUserIdFromToken")
 const validateUserId = require("../middlewares/validateUserId")
@@ -15,6 +16,22 @@ const router = express.Router()
 const checkFavSongExistsForUser = async (userId) => {
     const user = await User.findById(userId)
     return user && user.favoriteSong ? true : false
+}
+
+const validateReqBody = (req, res, next) => {
+    const { error: inputError } = Joi.object({
+        link: Joi.string().uri().required(),
+        userId: Joi.string().required(),
+        title: Joi.string().required(),
+        artist: Joi.string().required(),
+        comment: Joi.string().required(),
+    }).validate(req.body)
+
+    if (inputError) {
+        return res.status(400).json({ error: inputError.details[0].message })
+    }
+
+    next()
 }
 
 // Middleware to generate song metadata
@@ -44,8 +61,8 @@ const generateSongAndThread = async (req, res, next) => {
     const songObject = {
         link: songLink,
         artLink,
-        artist,
         title,
+        artist,
         commentThreadId: threadObject._id.toString(),
     }
 
@@ -101,10 +118,11 @@ router.use(getUserIdFromToken, validateUserId)
 
 router.post(
     "/create",
+    validateReqBody
     asyncHandler(generateSongAndThread),
     asyncHandler(createSong),
 )
-router.patch("/edit/:id", asyncHandler(editSong))
+router.patch("/edit/:id", validateReqBody, asyncHandler(editSong))
 router.patch("/remove", asyncHandler(removeSong))
 
 module.exports = router
