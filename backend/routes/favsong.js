@@ -118,7 +118,7 @@ router.use(getUserIdFromToken, validateUserId)
 
 router.post(
     "/create",
-    validateReqBody
+    validateReqBody,
     asyncHandler(generateSongAndThread),
     asyncHandler(createSong),
 )
