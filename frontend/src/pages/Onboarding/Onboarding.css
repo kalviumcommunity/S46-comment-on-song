@@ -39,12 +39,6 @@
     gap: 0.4rem;
 }
 
-.terms-checkbox {
-    display: flex;
-    flex-direction: row;
-    gap: 0.5rem;
-}
-
 .on-container label {
     font-size: 0.9rem;
     font-weight: 500;

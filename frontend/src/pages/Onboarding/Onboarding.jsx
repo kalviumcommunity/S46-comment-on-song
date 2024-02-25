@@ -2,7 +2,6 @@ import { useState, useEffect, useContext } from "react"
 import { Link, useLocation } from "react-router-dom"
 import { useForm } from "react-hook-form"
 import { AppContext } from "@/App"
-import { setCookie } from "@/helpers/cookies"
 import axios from "@/axios"
 import "./Onboarding.css"
 
@@ -26,7 +25,6 @@ function Signup() {
                 alert(res.data.message)
             })
             .catch((err) => {
-                console.log(err)
                 if (err.response.data.error) {
                     alert(err.response.data.error)
                 } else {
@@ -159,7 +157,6 @@ function Login() {
                 alert(res.data.message)
             })
             .catch((err) => {
-                console.log(err)
                 if (err.response.data.error) {
                     alert(err.response.data.error)
                 } else {
@@ -214,26 +211,6 @@ function Login() {
                             <span className="on-form-err">
                                 {errors.password.message}
                             </span>
-                        )}
-                    </div>
-                    <div className="on-form-element">
-                        <div className="terms-checkbox">
-                            <input
-                                type="checkbox"
-                                id="terms"
-                                {...register("terms", {
-                                    required:
-                                        "You must agree to the terms and conditions",
-                                })}
-                            />
-                            <label htmlFor="terms" className="terms-label">
-                                I agree to the terms and conditions
-                            </label>
-                        </div>
-                        {errors.terms && (
-                            <div className="on-form-err">
-                                {errors.terms.message}
-                            </div>
                         )}
                     </div>
                     <div className="on-form-element">

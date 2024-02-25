@@ -2,16 +2,18 @@ const express = require("express")
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 
-const router = express.Router()
-
+const asyncHandler = require("../middlewares/asyncHandler")
 const User = require("../models/user")
+
+const router = express.Router()
 
 const JWT_EXP_IN = "30d"
 const COOKIE_MAX_AGE = 2592000000 // 30 days in milliseconds
 
 const generateJwtToken = async (userId) => {
-    const token = await jwt.sign({ userId: userId }, process.env.JWT_SECRET, {
+    const token = await jwt.sign({ userId }, process.env.JWT_SECRET, {
         expiresIn: JWT_EXP_IN,
+        algorithm: "HS256",
     })
 
     return token
@@ -66,7 +68,7 @@ const signupHandler = async (req, res) => {
 
     await newUser.save()
 
-    const token = await generateJwtToken(user._id.toString())
+    const token = await generateJwtToken(newUser._id.toString())
 
     res.cookie("token", token, {
         maxAge: COOKIE_MAX_AGE,
@@ -77,7 +79,7 @@ const signupHandler = async (req, res) => {
     })
 }
 
-router.post("/login", loginHandler)
-router.post("/signup", signupHandler)
+router.post("/login", asyncHandler(loginHandler))
+router.post("/signup", asyncHandler(signupHandler))
 
 module.exports = router

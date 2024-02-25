@@ -33,7 +33,6 @@ function Profile() {
                 alert("Favorite song removed successfully")
             })
             .catch((err) => {
-                console.log(err)
                 alert("Failed to remove favorite song")
             })
     }
@@ -56,7 +55,6 @@ function Profile() {
                     setUserFavSongData(res.data)
                 })
                 .catch((err) => {
-                    console.log(err)
                     alert("Failed to load favorite song")
                 })
         }

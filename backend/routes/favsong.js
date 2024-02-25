@@ -1,5 +1,9 @@
 const express = require("express")
+
+const getUserIdFromToken = require("../middlewares/getUserIdFromToken")
+const validateUserId = require("../middlewares/validateUserId")
 const asyncHandler = require("../middlewares/asyncHandler")
+
 const getSongMetadata = require("../helpers/getSongMetadata")
 
 const Song = require("../models/song")
@@ -14,8 +18,9 @@ const checkFavSongExistsForUser = async (userId) => {
 }
 
 // Middleware to generate song metadata
-const generateSongAndThread = asyncHandler(async (req, res, next) => {
-    const { userId, link, comment, artist, title } = req.body
+const generateSongAndThread = async (req, res, next) => {
+    const { userId } = req
+    const { link, comment, artist, title } = req.body
 
     const hasFavSong = await checkFavSongExistsForUser(userId)
     if (hasFavSong) {
@@ -24,12 +29,7 @@ const generateSongAndThread = asyncHandler(async (req, res, next) => {
             .json({ error: "User already has a favorite song" })
     }
 
-    const {
-        link: songLink,
-        artLink,
-        error,
-        message,
-    } = await getSongMetadata(link)
+    const { link: songLink, artLink, error } = await getSongMetadata(link)
 
     if (error || !songLink || !artLink) {
         return res.status(400).json({ error: "Invalid link provided" })
@@ -52,12 +52,11 @@ const generateSongAndThread = asyncHandler(async (req, res, next) => {
     req.songObject = songObject
 
     next()
-})
+}
 
 // Handler to create a new song
 const createSong = async (req, res) => {
-    const { userId } = req.body
-    const { songObject } = req
+    const { songObject, userId } = req
 
     const newSong = await Song.create(songObject)
     await User.findByIdAndUpdate(userId, { favoriteSong: newSong._id })
@@ -65,8 +64,9 @@ const createSong = async (req, res) => {
     res.status(201).json(newSong)
 }
 
-const editSong = asyncHandler(async (req, res) => {
-    const { link, comment, artist, title, userId } = req.body
+const editSong = async (req, res) => {
+    const { userId } = req
+    const { link, comment, artist, title } = req.body
     const { id } = req.params
 
     const { link: songLink, artLink } = await getSongMetadata(link)
@@ -87,17 +87,23 @@ const editSong = asyncHandler(async (req, res) => {
     }
 
     res.status(200).json(updatedSongDoc)
-})
+}
 
 const removeSong = async (req, res) => {
-    const { userId } = req.body
+    const { userId } = req
 
     await User.findByIdAndUpdate(userId, { favoriteSong: "" })
 
     res.status(200).json({ message: "Favorite song removed successfully" })
 }
 
-router.post("/create", generateSongAndThread, asyncHandler(createSong))
+router.use(getUserIdFromToken, validateUserId)
+
+router.post(
+    "/create",
+    asyncHandler(generateSongAndThread),
+    asyncHandler(createSong),
+)
 router.patch("/edit/:id", asyncHandler(editSong))
 router.patch("/remove", asyncHandler(removeSong))
 
