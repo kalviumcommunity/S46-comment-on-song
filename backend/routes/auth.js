@@ -70,6 +70,7 @@ const loginHandler = async (req, res) => {
     res.cookie("token", token, {
         maxAge: COOKIE_MAX_AGE,
         sameSite: "none",
+        secure: true,
     })
 
     res.status(200).json({ message: "Login successful" })
@@ -104,6 +105,7 @@ const signupHandler = async (req, res) => {
     res.cookie("token", token, {
         maxAge: COOKIE_MAX_AGE,
         sameSite: "none",
+        secure: true,
     })
 
     res.status(200).json({
