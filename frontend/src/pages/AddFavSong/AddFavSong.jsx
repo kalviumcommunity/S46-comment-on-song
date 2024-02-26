@@ -31,6 +31,7 @@ function AddFavSong({ page }) {
             })
             .catch((err) => {
                 setSubmitStatus({ status: "error", error: err })
+                alert(err.response.data.error)
             })
             .finally(() => setIsLoading(false))
     }
@@ -45,7 +46,10 @@ function AddFavSong({ page }) {
                     response: res,
                 })
             })
-            .catch((err) => setSubmitStatus({ status: "error", error: err }))
+            .catch((err) => {
+                setSubmitStatus({ status: "error", error: err })
+                alert(err.response.data.error)
+            })
             .finally(() => setIsLoading(false))
     }
 

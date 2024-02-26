@@ -8,15 +8,15 @@ import "./Profile.css"
 function Profile() {
     const navigate = useNavigate()
 
-    const { setUserId, userObj, userFavSongId, setUserFavSongId } =
+    const { setUserExists, userObj, userFavSongId, setUserFavSongId } =
         useContext(AppContext)
 
     const [userFavSongData, setUserFavSongData] = useState(null)
 
     const handleLogout = () => {
         if (confirm("Are you sure to logout?")) {
-            setCookie("userId", null, null)
-            setUserId(null)
+            setCookie("token", null, null)
+            setUserExists(null)
             navigate("/feed")
         }
     }
@@ -33,7 +33,6 @@ function Profile() {
                 alert("Favorite song removed successfully")
             })
             .catch((err) => {
-                console.log(err)
                 alert("Failed to remove favorite song")
             })
     }
@@ -56,7 +55,6 @@ function Profile() {
                     setUserFavSongData(res.data)
                 })
                 .catch((err) => {
-                    console.log(err)
                     alert("Failed to load favorite song")
                 })
         }

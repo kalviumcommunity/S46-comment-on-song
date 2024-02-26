@@ -2,12 +2,11 @@ import { useState, useEffect, useContext } from "react"
 import { Link, useLocation } from "react-router-dom"
 import { useForm } from "react-hook-form"
 import { AppContext } from "@/App"
-import { setCookie } from "@/helpers/cookies"
 import axios from "@/axios"
 import "./Onboarding.css"
 
 function Signup() {
-    const { setUserId } = useContext(AppContext)
+    const { setUserExists } = useContext(AppContext)
 
     const {
         register,
@@ -22,12 +21,10 @@ function Signup() {
         axios
             .post("auth/signup", values)
             .then((res) => {
-                const userId = res.data.user._id
-                setCookie("userId", userId, 365)
-                setUserId(userId)
+                setUserExists(true)
+                alert(res.data.message)
             })
             .catch((err) => {
-                console.log(err)
                 if (err.response.data.error) {
                     alert(err.response.data.error)
                 } else {
@@ -144,7 +141,7 @@ function Signup() {
 }
 
 function Login() {
-    const { setUserId } = useContext(AppContext)
+    const { setUserExists } = useContext(AppContext)
 
     const {
         register,
@@ -154,14 +151,12 @@ function Login() {
 
     const onLogin = (values) => {
         axios
-            .post("auth/login", values)
+            .post("auth/login", values, { withCredentials: true })
             .then((res) => {
-                const userId = res.data.user._id
-                setCookie("userId", userId, 365)
-                setUserId(userId)
+                setUserExists(true)
+                alert(res.data.message)
             })
             .catch((err) => {
-                console.log(err)
                 if (err.response.data.error) {
                     alert(err.response.data.error)
                 } else {

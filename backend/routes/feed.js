@@ -9,7 +9,6 @@ const loadFeed = async (req, res) => {
         const songs = await Song.find().sort({ _id: -1 }).lean()
         res.json(songs)
     } catch (error) {
-        console.error("Error loading feed:", error)
         res.status(500).json({
             success: false,
             error: "Internal server error",

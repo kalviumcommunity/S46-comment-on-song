@@ -1,6 +1,6 @@
 const mongoose = require("mongoose")
 
-const validateDocumentID = (req, res, next) => {
+const validateDocIDParam = (req, res, next) => {
     let documentId = req.params.id
 
     if (!documentId || !mongoose.Types.ObjectId.isValid(documentId)) {
@@ -11,4 +11,4 @@ const validateDocumentID = (req, res, next) => {
     next()
 }
 
-module.exports = validateDocumentID
+module.exports = validateDocIDParam
