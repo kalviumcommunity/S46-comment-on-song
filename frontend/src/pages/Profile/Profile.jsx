@@ -51,7 +51,7 @@ function Profile() {
     }
 
     useEffect(() => {
-        if (userObj.favoriteSong) {
+        if (userObj && userObj.favoriteSong) {
             axios
                 .get(`song/${userObj.favoriteSong}`)
                 .then((res) => {

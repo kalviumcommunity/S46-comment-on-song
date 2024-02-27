@@ -1,0 +1,69 @@
+.comment-field-container {
+    padding: 0.5rem;
+    position: sticky;
+    margin-top: auto;
+    bottom: 0;
+}
+
+.comment-loader {
+    width: 100%;
+    position: absolute;
+    background: rgba(255, 255, 255, 0.8);
+    height: 100%;
+}
+
+.comment-field {
+    display: flex;
+    padding: 0.25rem;
+    border: 2px solid #222;
+    background-color: #fff;
+    border-radius: 2rem;
+    box-shadow:
+        rgba(0, 0, 0, 0.1) 0px 20px 25px -5px,
+        rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+}
+
+.comment-field span {
+    padding: 0.75rem 1.5rem;
+    background-color: #ffe900;
+    border-radius: 2rem;
+    text-align: center;
+    font-weight: 500;
+    width: 100%;
+}
+
+.comment-field span a {
+    color: black;
+    font-size: 0.9rem;
+}
+
+.comment-field input {
+    padding: 0.5rem 1.5rem;
+    width: 100%;
+    border: 0px;
+    border-radius: 2rem;
+    font-size: 0.9rem;
+}
+
+.comment-field input:focus {
+    outline: none;
+}
+
+.comment-field button {
+    background-color: #ffe900;
+    border: 0px;
+    padding: 0.75rem;
+    border-radius: 3rem;
+    display: flex;
+}
+
+.comment-field button:active {
+    outline: 2px solid #222;
+}
+
+.comment-field button img {
+    width: 100%;
+    margin: auto;
+    margin-left: 0.1rem;
+    transform: scale(1.1);
+}

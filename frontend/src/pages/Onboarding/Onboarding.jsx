@@ -157,7 +157,6 @@ function Login() {
                 alert(res.data.message)
             })
             .catch((err) => {
-                console.log(err)
                 if (err.response.data.error) {
                     alert(err.response.data.error)
                 } else {
