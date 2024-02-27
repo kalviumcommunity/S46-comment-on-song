@@ -30,8 +30,8 @@ function AddFavSong({ page }) {
             })
             .catch((err) => {
                 setSubmitStatus({ status: "error", error: err })
-                console.log(err)
                 alert(err.response.data.error)
+                console.log(err)
             })
             .finally(() => setIsLoading(false))
     }

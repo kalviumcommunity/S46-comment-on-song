@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from "react"
 import { Link } from "react-router-dom"
+import Loader from "@/components/Loader/Loader"
 import { AppContext } from "@/App"
 import axios from "@/axios"
 import "./Feed.css"
@@ -11,6 +12,7 @@ function Feed() {
     const [users, setUsers] = useState([])
     const [selectedUser, setSelectedUser] = useState("")
     const [filteredSongs, setFilteredSongs] = useState([])
+    const [loading, setLoading] = useState(true)
 
     const handleSelectChange = (event) => {
         setSelectedUser(event.target.value)
@@ -30,6 +32,7 @@ function Feed() {
                 setUsers(uniqueUsers)
             })
             .catch((err) => console.log(err))
+            .finally(() => setLoading(false))
     }, [])
 
     useEffect(() => {
@@ -60,6 +63,7 @@ function Feed() {
                         ))}
                     </select>
                 </div>
+                {loading && <Loader />}
                 {filteredSongs && (
                     <>
                         {filteredSongs.map((song, index) => (

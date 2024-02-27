@@ -54,13 +54,6 @@ const loginHandler = async (req, res) => {
 
     const user = await User.findOne({ userEmail: email })
 
-    const userData = {
-        _id: user._id.toString(),
-        userName: user.userName,
-        userEmail: user.userEmail,
-        favoriteSong: user.favoriteSong,
-    }
-
     if (!user) {
         return res.status(400).json({
             error: "Email not found. Please sign up or try again.",
@@ -80,7 +73,7 @@ const loginHandler = async (req, res) => {
         secure: true,
     })
 
-    res.status(200).json({ message: "Login successful", user: userData })
+    res.status(200).json({ message: "Login successful" })
 }
 
 const signupHandler = async (req, res) => {
@@ -107,13 +100,6 @@ const signupHandler = async (req, res) => {
 
     await newUser.save()
 
-    const userData = {
-        _id: newUser._id.toString(),
-        userName: newUser.userName,
-        userEmail: newUser.userEmail,
-        favoriteSong: newUser.favoriteSong,
-    }
-
     const token = await generateJwtToken(newUser._id.toString())
 
     res.cookie("token", token, {
@@ -124,7 +110,6 @@ const signupHandler = async (req, res) => {
 
     res.status(200).json({
         message: "User registered successfully",
-        user: userData,
     })
 }
 
