@@ -90,7 +90,7 @@ function Song() {
                                 (comment, index) => (
                                     <div className="comment" key={index}>
                                         <span className="comment-user">
-                                            user-{comment.userId.slice(-4)}
+                                            {comment.createdBy}
                                         </span>
                                         <span className="comment-content">
                                             {comment.commentText}

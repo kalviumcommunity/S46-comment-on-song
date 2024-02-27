@@ -6,13 +6,16 @@ import { AppContext } from "@/App"
 
 function Layout() {
     const location = useLocation().pathname
-    const { userFavSongId } = useContext(AppContext)
+    const { userObj } = useContext(AppContext)
 
     return (
         <div className="app">
             <Outlet />
             <Navigation />
-            {location === "/feed" && userFavSongId === "" && <AddFavSongBtn />}
+
+            {location === "/feed" && userObj && userObj.favoriteSong === "" && (
+                <AddFavSongBtn />
+            )}
         </div>
     )
 }

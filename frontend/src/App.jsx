@@ -17,24 +17,23 @@ export const AppContext = React.createContext()
 function App() {
     const [userExists, setUserExists] = useState(false)
     const [userObj, setUserObj] = useState(null)
+    const [userFavSongData, setUserFavSongData] = useState(null)
     const [currentSong, setCurrentSong] = useState([])
-    const [userFavSongId, setUserFavSongId] = useState(null)
 
     useEffect(() => {
         const tokenFromCookie = getCookie("token")
-        if (tokenFromCookie == "null") {
-            setUserExists(null)
+        if (tokenFromCookie === "null") {
+            setUserExists(false)
+            setUserObj(null)
         } else {
-            setUserExists(tokenFromCookie)
-        }
-    }, [])
-
-    useEffect(() => {
-        if (userExists) {
+            setUserExists(true)
             axios
-                .get("/user")
+                .get("/user", {
+                    headers: {
+                        Authorization: `Bearer ${tokenFromCookie}`,
+                    },
+                })
                 .then((res) => {
-                    setUserFavSongId(res.data.favoriteSong)
                     setUserObj(res.data)
                 })
                 .catch((err) => console.error(err))
@@ -45,10 +44,11 @@ function App() {
         userExists,
         userObj,
         currentSong,
-        userFavSongId,
         setUserExists,
+        setUserObj,
         setCurrentSong,
-        setUserFavSongId,
+        userFavSongData,
+        setUserFavSongData,
     }
 
     return (

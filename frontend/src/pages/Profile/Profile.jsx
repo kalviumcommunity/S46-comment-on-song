@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react"
+import React, { useContext, useEffect } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { AppContext } from "@/App"
 import { setCookie } from "@/helpers/cookies"
@@ -8,16 +8,20 @@ import "./Profile.css"
 function Profile() {
     const navigate = useNavigate()
 
-    const { setUserExists, userObj, userFavSongId, setUserFavSongId } =
-        useContext(AppContext)
-
-    const [userFavSongData, setUserFavSongData] = useState(null)
+    const {
+        userObj,
+        setUserExists,
+        setUserObj,
+        userFavSongData,
+        setUserFavSongData,
+    } = useContext(AppContext)
 
     const handleLogout = () => {
         if (confirm("Are you sure to logout?")) {
+            setUserExists(false)
+            setUserObj(null)
             setCookie("token", null, null)
-            setUserExists(null)
-            navigate("/feed")
+            navigate("/")
         }
     }
 
@@ -25,10 +29,9 @@ function Profile() {
         axios
             .patch("favsong/remove", {
                 userId: userObj._id,
-                userFavSong: userFavSongId,
+                userFavSong: userObj.favoriteSong,
             })
             .then(() => {
-                setUserFavSongId(null)
                 setUserFavSongData(null)
                 alert("Favorite song removed successfully")
             })
@@ -48,9 +51,9 @@ function Profile() {
     }
 
     useEffect(() => {
-        if (userFavSongId) {
+        if (userObj.favoriteSong) {
             axios
-                .get(`song/${userFavSongId}`)
+                .get(`song/${userObj.favoriteSong}`)
                 .then((res) => {
                     setUserFavSongData(res.data)
                 })
@@ -58,7 +61,7 @@ function Profile() {
                     alert("Failed to load favorite song")
                 })
         }
-    }, [userFavSongId])
+    }, [userObj])
 
     return (
         <div className="profile">
@@ -92,7 +95,7 @@ function Profile() {
                         <h1>Your favorite song</h1>
                         <div className="usersong">
                             <Link
-                                to={`/song/${userFavSongId}`}
+                                to={`/song/${userObj.favoriteSong}`}
                                 className="usersong-link"
                             >
                                 <img

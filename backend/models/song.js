@@ -7,6 +7,7 @@ const songScheme = new mongoose.Schema({
     artLink: String,
     createdAt: { type: Date, default: Date.now },
     commentThreadId: { type: String, unique: true },
+    createdBy: String,
 })
 
 const Song = mongoose.model("songs", songScheme)

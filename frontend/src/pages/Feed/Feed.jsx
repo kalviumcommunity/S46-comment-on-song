@@ -1,13 +1,22 @@
 import React, { useContext, useState, useEffect } from "react"
 import { Link } from "react-router-dom"
+import Loader from "@/components/Loader/Loader"
+import { AppContext } from "@/App"
 import axios from "@/axios"
 import "./Feed.css"
-import { AppContext } from "@/App"
 
 function Feed() {
     const { setCurrentSong } = useContext(AppContext)
 
     const [songs, setSongs] = useState([])
+    const [users, setUsers] = useState([])
+    const [selectedUser, setSelectedUser] = useState("")
+    const [filteredSongs, setFilteredSongs] = useState([])
+    const [loading, setLoading] = useState(true)
+
+    const handleSelectChange = (event) => {
+        setSelectedUser(event.target.value)
+    }
 
     const updateCurrentSong = (song) => {
         setCurrentSong(song)
@@ -16,9 +25,25 @@ function Feed() {
     useEffect(() => {
         axios
             .get("/feed")
-            .then((res) => setSongs(res.data))
+            .then((res) => {
+                setSongs(res.data)
+                const allUsers = res.data.map((song) => song.createdBy)
+                const uniqueUsers = [...new Set(allUsers)]
+                setUsers(uniqueUsers)
+            })
             .catch((err) => console.log(err))
+            .finally(() => setLoading(false))
     }, [])
+
+    useEffect(() => {
+        if (selectedUser === "") setFilteredSongs(songs)
+        else {
+            const filtered = songs.filter(
+                (song) => song.createdBy === selectedUser,
+            )
+            setFilteredSongs(filtered)
+        }
+    }, [selectedUser, songs])
 
     return (
         <div className="feed">
@@ -26,9 +51,22 @@ function Feed() {
                 <h1 className="feed-header">
                     Discover <i>comments</i> on song
                 </h1>
-                {songs && (
+                <div className="dropdown">
+                    <span>Filter by user:</span>
+                    &nbsp;
+                    <select value={selectedUser} onChange={handleSelectChange}>
+                        <option value="">Everyone</option>
+                        {users.map((user, index) => (
+                            <option value={user} key={index}>
+                                {user}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                {loading && <Loader />}
+                {filteredSongs && (
                     <>
-                        {songs.map((song, index) => (
+                        {filteredSongs.map((song, index) => (
                             <Link
                                 to={`/song/${song._id}`}
                                 className="song"

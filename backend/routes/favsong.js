@@ -39,6 +39,9 @@ const generateSongAndThread = async (req, res, next) => {
     const { userId } = req
     const { link, comment, artist, title } = req.body
 
+    const userDoc = await User.findById(userId).select("-userPassword")
+    const createdBy = `${userDoc.userName} (${userDoc._id.toString().slice(-4)})`
+
     const hasFavSong = await checkFavSongExistsForUser(userId)
     if (hasFavSong) {
         return res
@@ -54,16 +57,17 @@ const generateSongAndThread = async (req, res, next) => {
 
     const threadObject = await Thread.create({
         favoriteComments: [
-            { userId, commentText: comment, timestamp: new Date() },
+            { createdBy, commentText: comment, timestamp: new Date() },
         ],
     })
 
     const songObject = {
-        link: songLink,
-        artLink,
         title,
+        link: songLink,
         artist,
+        artLink,
         commentThreadId: threadObject._id.toString(),
+        createdBy,
     }
 
     req.songObject = songObject
