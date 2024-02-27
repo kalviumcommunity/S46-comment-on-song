@@ -6,7 +6,7 @@ import axios from "@/axios"
 import "./AddFavSong.css"
 
 function AddFavSong({ page }) {
-    const { userFavSongId, setUserFavSongId, userObj } = useContext(AppContext)
+    const { userObj } = useContext(AppContext)
 
     const [isSubmitted, setIsSubmitted] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
@@ -27,10 +27,10 @@ function AddFavSong({ page }) {
                     status: "success",
                     response: res,
                 })
-                setUserFavSongId(res.data._id)
             })
             .catch((err) => {
                 setSubmitStatus({ status: "error", error: err })
+                console.log(err)
                 alert(err.response.data.error)
             })
             .finally(() => setIsLoading(false))
@@ -49,6 +49,7 @@ function AddFavSong({ page }) {
             .catch((err) => {
                 setSubmitStatus({ status: "error", error: err })
                 alert(err.response.data.error)
+                console.log(err)
             })
             .finally(() => setIsLoading(false))
     }
@@ -58,7 +59,7 @@ function AddFavSong({ page }) {
 
         if (page === "Add") handleAddFavSong(values, userObj._id)
         else if (page === "Edit")
-            handleEditFavSong(values, userFavSongId, userObj._id)
+            handleEditFavSong(values, userObj.favoriteSong, userObj._id)
 
         setIsSubmitted(true)
     }
@@ -157,7 +158,7 @@ function AddFavSong({ page }) {
                                           ? "Song edited successfully ✅"
                                           : null}
                                 </span>
-                                <Link to="/feed" className="add-form-reload">
+                                <Link to="/feed" className="add-form-action">
                                     <button>Go to feed</button>
                                 </Link>
                             </>

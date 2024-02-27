@@ -5,7 +5,7 @@ import "./AddFavSongBtn.css"
 function AddFavSongBtn() {
     return (
         <Link to="/addfavsong" className="addfav">
-            Update your fav song
+            Add your fav song
         </Link>
     )
 }

@@ -16,14 +16,30 @@
 
 .feed-header {
     font-weight: 700;
-    padding: 1rem;
-    padding-top: 0.5rem;
+    padding: 0.5rem 1rem;
     line-height: 2.25rem;
 }
 
 .feed-header i {
     font-weight: 500;
     font-family: "Pacifico", cursive;
+}
+
+.dropdown {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0.25rem 1rem 1rem 1rem;
+}
+
+.dropdown select {
+    padding: 0.25rem 0.5rem;
+    border: 1.5px solid black;
+    border-radius: 0.5rem;
+}
+
+.dropdown select:focus {
+    outline: 1px solid black;
 }
 
 .song {
