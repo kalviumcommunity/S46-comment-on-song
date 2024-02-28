@@ -35,7 +35,7 @@ function App() {
 
     useEffect(() => {
         const tokenFromCookie = getCookie("token")
-        if (tokenFromCookie === "null") {
+        if (!tokenFromCookie || tokenFromCookie === "null") {
             setUserExists(false)
             setUserObj(null)
         } else {
