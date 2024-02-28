@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from "react"
 import { Link, useLocation } from "react-router-dom"
 import { useForm } from "react-hook-form"
+import { setCookie } from "@/helpers/cookies"
 import { AppContext } from "@/App"
 import axios from "@/axios"
 import "./Onboarding.css"
@@ -22,6 +23,7 @@ function Signup() {
             .post("auth/signup", values)
             .then((res) => {
                 setUserExists(true)
+                setCookie("token", res.data.token, 30)
                 alert(res.data.message)
             })
             .catch((err) => {
@@ -154,6 +156,7 @@ function Login() {
             .post("auth/login", values, { withCredentials: true })
             .then((res) => {
                 setUserExists(true)
+                setCookie("token", res.data.token, 30)
                 alert(res.data.message)
             })
             .catch((err) => {

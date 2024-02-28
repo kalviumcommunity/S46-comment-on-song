@@ -9,7 +9,6 @@ const User = require("../models/user")
 const router = express.Router()
 
 const JWT_EXP_IN = "30d"
-const COOKIE_MAX_AGE = 2592000000 // 30 days in milliseconds
 
 const loginSchema = Joi.object({
     email: Joi.string().email().required().label("Email"),
@@ -67,13 +66,7 @@ const loginHandler = async (req, res) => {
 
     const token = await generateJwtToken(user._id.toString())
 
-    res.cookie("token", token, {
-        maxAge: COOKIE_MAX_AGE,
-        sameSite: "none",
-        secure: true,
-    })
-
-    res.status(200).json({ message: "Login successful" })
+    res.status(200).json({ message: "Login successful", token: token })
 }
 
 const signupHandler = async (req, res) => {
@@ -102,14 +95,9 @@ const signupHandler = async (req, res) => {
 
     const token = await generateJwtToken(newUser._id.toString())
 
-    res.cookie("token", token, {
-        maxAge: COOKIE_MAX_AGE,
-        sameSite: "none",
-        secure: true,
-    })
-
     res.status(200).json({
         message: "User registered successfully",
+        token: token,
     })
 }
 
