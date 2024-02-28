@@ -33,6 +33,10 @@
 }
 
 @media screen and (max-width: 896px) {
+    .hero-elements {
+        padding: 2rem 1rem;
+    }
+
     .grain {
         height: 48rem;
     }

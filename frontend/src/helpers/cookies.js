@@ -1,4 +1,3 @@
-// Function to get a cookie by name
 export const getCookie = (name) => {
     const cookieName = name + "="
     const decodedCookie = decodeURIComponent(document.cookie)
@@ -16,7 +15,6 @@ export const getCookie = (name) => {
     return null
 }
 
-// Function to set a cookie
 export const setCookie = (name, value, days) => {
     let expires = ""
     if (days) {

@@ -20,6 +20,19 @@ function App() {
     const [userFavSongData, setUserFavSongData] = useState(null)
     const [currentSong, setCurrentSong] = useState([])
 
+    const getUserData = (token) => {
+        axios
+            .get("/user", {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+            .then((res) => {
+                setUserObj(res.data)
+            })
+            .catch((err) => console.error(err))
+    }
+
     useEffect(() => {
         const tokenFromCookie = getCookie("token")
         if (tokenFromCookie === "null") {
@@ -27,16 +40,7 @@ function App() {
             setUserObj(null)
         } else {
             setUserExists(true)
-            axios
-                .get("/user", {
-                    headers: {
-                        Authorization: `Bearer ${tokenFromCookie}`,
-                    },
-                })
-                .then((res) => {
-                    setUserObj(res.data)
-                })
-                .catch((err) => console.error(err))
+            getUserData(tokenFromCookie)
         }
     }, [userExists])
 
