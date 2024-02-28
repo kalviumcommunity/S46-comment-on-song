@@ -90,8 +90,6 @@
 
 .comment {
     padding: 0.25rem;
-    display: flex;
-    gap: 0.5rem;
 }
 
 .comment-empty {
@@ -104,6 +102,8 @@
 
 .comment-content {
     color: #4f4f4f;
+    word-wrap: break-word;
+    padding-left: 0.5rem;
 }
 
 .comments-header {

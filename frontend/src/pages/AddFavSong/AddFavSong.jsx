@@ -6,7 +6,7 @@ import axios from "@/axios"
 import "./AddFavSong.css"
 
 function AddFavSong({ page }) {
-    const { userObj } = useContext(AppContext)
+    const { userObj, setUserObj, setUserFavSongData } = useContext(AppContext)
 
     const [isSubmitted, setIsSubmitted] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
@@ -23,15 +23,16 @@ function AddFavSong({ page }) {
         axios
             .post("/favsong/create", songData)
             .then((res) => {
+                setUserObj({ ...userObj, favoriteSong: res.data._id })
+                setUserFavSongData(res.data)
                 setSubmitStatus({
                     status: "success",
-                    response: res,
                 })
             })
             .catch((err) => {
+                console.log(err)
                 setSubmitStatus({ status: "error", error: err })
                 alert(err.response.data.error)
-                console.log(err)
             })
             .finally(() => setIsLoading(false))
     }
@@ -41,15 +42,16 @@ function AddFavSong({ page }) {
         axios
             .patch(`/favsong/edit/${songId}`, songData)
             .then((res) => {
+                setUserObj({ ...userObj, favoriteSong: res.data._id })
+                setUserFavSongData(res.data)
                 setSubmitStatus({
                     status: "success",
-                    response: res,
                 })
             })
             .catch((err) => {
+                console.log(err)
                 setSubmitStatus({ status: "error", error: err })
                 alert(err.response.data.error)
-                console.log(err)
             })
             .finally(() => setIsLoading(false))
     }

@@ -15,7 +15,7 @@ function Song() {
     const [threadData, setThreadData] = useState([])
     const [reloadThread, setReloadThread] = useState(0)
     const [platform, setPlatform] = useState("youtube")
-    const [loaderComment, setLoaderComment] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     const updatePlatformState = (link) => {
         if (link.includes("spotify.com")) {
@@ -144,15 +144,15 @@ function Song() {
                     </div>
                 </>
             )}
-            {loaderComment && (
-                <div className="comment-loader">
+            {loading && (
+                <div className="full-loader">
                     <Loader />
                 </div>
             )}
             <CommentField
                 threadId={threadId}
                 setReloadThread={setReloadThread}
-                setLoaderComment={setLoaderComment}
+                setLoading={setLoading}
             />
         </div>
     )

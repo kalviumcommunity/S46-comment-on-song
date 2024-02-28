@@ -5,7 +5,7 @@ import { AppContext } from "@/App"
 import axios from "@/axios"
 import "./CommentField.css"
 
-function CommentField({ threadId, setReloadThread, setLoaderComment }) {
+function CommentField({ threadId, setReloadThread, setLoading }) {
     const { userExists } = useContext(AppContext)
     const { register, handleSubmit, reset } = useForm()
 
@@ -21,11 +21,11 @@ function CommentField({ threadId, setReloadThread, setLoaderComment }) {
                     alert(err.response.data)
                 } else alert("Error posting comment. Try again later.")
             })
-            .finally(() => setLoaderComment(false))
+            .finally(() => setLoading(false))
     }
 
     const onSubmit = (value) => {
-        setLoaderComment(true)
+        setLoading(true)
         handlePostComment(value)
         reset()
     }
@@ -40,6 +40,8 @@ function CommentField({ threadId, setReloadThread, setLoaderComment }) {
                     <input
                         {...register("comment", {
                             required: true,
+                            minLength: 3,
+                            maxLength: 500,
                             validate: (value) => value.trim().length > 0,
                         })}
                         placeholder="Enter comment (Min 3 and max 500 characters)"

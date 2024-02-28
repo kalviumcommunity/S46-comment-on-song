@@ -1,12 +1,15 @@
-import React, { useContext, useEffect } from "react"
+import React, { useContext, useState, useEffect } from "react"
 import { Link, useNavigate } from "react-router-dom"
-import { AppContext } from "@/App"
 import { setCookie } from "@/helpers/cookies"
+import Loader from "@/components/Loader"
+import { AppContext } from "@/App"
 import axios from "@/axios"
 import "./Profile.css"
 
 function Profile() {
     const navigate = useNavigate()
+
+    const [loading, setLoading] = useState(false)
 
     const {
         userObj,
@@ -26,6 +29,7 @@ function Profile() {
     }
 
     const removeFavSong = () => {
+        setLoading(true)
         axios
             .patch("favsong/remove", {
                 userId: userObj._id,
@@ -33,11 +37,13 @@ function Profile() {
             })
             .then(() => {
                 setUserFavSongData(null)
+                setUserObj({ ...userObj, favoriteSong: "" })
                 alert("Favorite song removed successfully")
             })
             .catch((err) => {
                 alert("Failed to remove favorite song")
             })
+            .finally(() => setLoading(false))
     }
 
     const handleEditFavSong = () => {
@@ -51,7 +57,7 @@ function Profile() {
     }
 
     useEffect(() => {
-        if (userObj && userObj.favoriteSong) {
+        if (userObj && userObj.favoriteSong && !userFavSongData) {
             axios
                 .get(`song/${userObj.favoriteSong}`)
                 .then((res) => {
@@ -90,44 +96,52 @@ function Profile() {
                 )}
             </div>
             <div className="profile-actions">
-                {userFavSongData ? (
-                    <div className="profile-usersong">
-                        <h1>Your favorite song</h1>
-                        <div className="usersong">
-                            <Link
-                                to={`/song/${userObj.favoriteSong}`}
-                                className="usersong-link"
-                            >
-                                <img
-                                    className="usersong-art"
-                                    src={`${userFavSongData.artLink}`}
-                                    alt=""
-                                />
-                                <div className="usersong-details">
-                                    <div className="usersong-title">
-                                        {userFavSongData.title}
-                                    </div>
-                                    <div className="usersong-artist">
-                                        {userFavSongData.artist}
+                {userObj && userObj.favoriteSong ? (
+                    <>
+                        {userFavSongData ? (
+                            <div className="profile-usersong">
+                                <h1>Your favorite song</h1>
+                                <div className="usersong">
+                                    <Link
+                                        to={`/song/${userObj.favoriteSong}`}
+                                        className="usersong-link"
+                                    >
+                                        <img
+                                            className="usersong-art"
+                                            src={`${userFavSongData.artLink}`}
+                                            alt=""
+                                        />
+                                        <div className="usersong-details">
+                                            <div className="usersong-title">
+                                                {userFavSongData.title}
+                                            </div>
+                                            <div className="usersong-artist">
+                                                {userFavSongData.artist}
+                                            </div>
+                                        </div>
+                                    </Link>
+                                    <div className="usersong-actions">
+                                        <button
+                                            className="usersong-edit"
+                                            onClick={() => handleEditFavSong()}
+                                        >
+                                            Edit
+                                        </button>
+                                        <button
+                                            className="usersong-remove"
+                                            onClick={() =>
+                                                handleRemoveFavSong()
+                                            }
+                                        >
+                                            Remove favourite
+                                        </button>
                                     </div>
                                 </div>
-                            </Link>
-                            <div className="usersong-actions">
-                                <button
-                                    className="usersong-edit"
-                                    onClick={() => handleEditFavSong()}
-                                >
-                                    Edit
-                                </button>
-                                <button
-                                    className="usersong-remove"
-                                    onClick={() => handleRemoveFavSong()}
-                                >
-                                    Remove favourite
-                                </button>
                             </div>
-                        </div>
-                    </div>
+                        ) : (
+                            <Loader />
+                        )}
+                    </>
                 ) : (
                     <Link to="/addfavsong" className="action add">
                         <span className="add-sub">Click here to share</span>
@@ -135,6 +149,11 @@ function Profile() {
                             Share your favourite <br /> song ↗️
                         </span>
                     </Link>
+                )}
+                {loading && (
+                    <div className="full-loader">
+                        <Loader />
+                    </div>
                 )}
             </div>
         </div>
