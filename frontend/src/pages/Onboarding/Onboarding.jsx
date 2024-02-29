@@ -126,13 +126,6 @@ function Signup() {
                 </form>
             </div>
             <hr />
-            <button className="on-google">
-                <img
-                    src="https://fonts.gstatic.com/s/i/productlogos/googleg/v6/24px.svg"
-                    alt=""
-                />
-                <span>Signup with Google</span>
-            </button>
             <div className="on-instead">
                 <span>
                     Already have an account? <Link to="/login">Log in</Link>
@@ -222,13 +215,6 @@ function Login() {
                 </form>
             </div>
             <hr />
-            <button className="on-google">
-                <img
-                    src="https://fonts.gstatic.com/s/i/productlogos/googleg/v6/24px.svg"
-                    alt=""
-                />
-                <span>Login with Google</span>
-            </button>
             <div className="on-instead">
                 <span>
                     Have no account? <Link to="/signup">Sign Up</Link>
